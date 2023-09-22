@@ -1,0 +1,109 @@
+{
+	"info": {
+		"_postman_id": "c443c3ed-b5c5-48e4-88e4-610f0de7b6a4",
+		"name": "Desafio votação",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "23109352"
+	},
+	"item": [
+		{
+			"name": "Pauta",
+			"item": [
+				{
+					"name": "Buscar pautas",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"Pauta 3\",\r\n    \"info\": \"Informações sobre a Pauta\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BASE_URL}}/pautas",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"pautas"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Assembleia",
+			"item": [
+				{
+					"name": "Buscar assembleia",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{BASE_URL}}/assembleias",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"assembleias"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Cadastrar assembleia",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{BASE_URL}}/assembleias",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"assembleias"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "BASE_URL",
+			"value": "http://localhost:8080/v1"
+		}
+	]
+}
