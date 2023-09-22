@@ -16,14 +16,14 @@
  * Challenge: https://github.com/dbserver/desafio-votacao
  *
  */
-package db.desafio.votacao.api.v1.controllers.util;
+package com.db.desafio.votacao.api.v1.modules.controllers;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
 public class Controller
 {
-    protected static final String VERSION = "v1/";
+    public static final String VERSION = "v1/";
     
     /** 
      * ok

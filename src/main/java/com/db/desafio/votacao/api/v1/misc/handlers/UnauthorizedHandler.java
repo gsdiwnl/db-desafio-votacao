@@ -1,7 +1,7 @@
 /**
- * Filename:    NotFoundException.java
+ * Filename:    UnauthorizedHandler.java
  *
- * Description: Implementation of the NotFoundException class.
+ * Description: Implementation of the UnauthorizedHandler class.
  *
  * Revision:    1.0
  *
@@ -16,29 +16,29 @@
  * Challenge: https://github.com/dbserver/desafio-votacao
  *
  */
-package db.desafio.votacao.api.v1.misc.handlers;
+package com.db.desafio.votacao.api.v1.misc.handlers;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
-import db.desafio.votacao.api.v1.misc.Error;
-import db.desafio.votacao.api.v1.misc.exceptions.NotFoundException;
+import com.db.desafio.votacao.api.v1.misc.Error;
+import com.db.desafio.votacao.api.v1.misc.exceptions.UnauthorizedException;
 
 @ControllerAdvice
-public class NotFoundHandler
+public class UnauthorizedHandler 
     implements 
-        Handler<NotFoundException>
+        Handler<UnauthorizedException>
 {
     /**
      * handle
      * 
-     * @param ex NotFoundException
+     * @param ex UnauthorizedException
      * @return ResponseEntity<Error>
      */
     @Override
-    @ExceptionHandler( NotFoundException.class )
-    public ResponseEntity<Error> handle( NotFoundException ex ) 
+    @ExceptionHandler( UnauthorizedException.class )
+    public ResponseEntity<Error> handle( UnauthorizedException ex ) 
     {
         return response( ex.getMessage(), ex.getStatus() );
     }

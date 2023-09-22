@@ -16,7 +16,7 @@
  * Challenge: https://github.com/dbserver/desafio-votacao
  *
  */
-package db.desafio.votacao.api.v1.misc;
+package com.db.desafio.votacao.api.v1.misc;
 
 import org.springframework.http.HttpStatus;
 

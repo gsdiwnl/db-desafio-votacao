@@ -1,7 +1,7 @@
 /**
- * Filename:    BadRequestHandler.java
+ * Filename:    NotFoundException.java
  *
- * Description: Implementation of the BadRequestHandler class.
+ * Description: Implementation of the NotFoundException class.
  *
  * Revision:    1.0
  *
@@ -16,29 +16,29 @@
  * Challenge: https://github.com/dbserver/desafio-votacao
  *
  */
-package db.desafio.votacao.api.v1.misc.handlers;
+package com.db.desafio.votacao.api.v1.misc.handlers;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
-import db.desafio.votacao.api.v1.misc.Error;
-import db.desafio.votacao.api.v1.misc.exceptions.BadRequestException;
+import com.db.desafio.votacao.api.v1.misc.Error;
+import com.db.desafio.votacao.api.v1.misc.exceptions.NotFoundException;
 
 @ControllerAdvice
-public class BadRequestHandler 
+public class NotFoundHandler
     implements 
-        Handler<BadRequestException>
+        Handler<NotFoundException>
 {
     /**
      * handle
      * 
-     * @param ex BadRequestException
+     * @param ex NotFoundException
      * @return ResponseEntity<Error>
      */
     @Override
-    @ExceptionHandler( BadRequestException.class )
-    public ResponseEntity<Error> handle( BadRequestException ex ) 
+    @ExceptionHandler( NotFoundException.class )
+    public ResponseEntity<Error> handle( NotFoundException ex ) 
     {
         return response( ex.getMessage(), ex.getStatus() );
     }

@@ -16,14 +16,14 @@
  * Challenge: https://github.com/dbserver/desafio-votacao
  *
  */
-package db.desafio.votacao.api.v1.misc.handlers;
+package com.db.desafio.votacao.api.v1.misc.handlers;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
-import db.desafio.votacao.api.v1.misc.Error;
+import com.db.desafio.votacao.api.v1.misc.Error;
 
 @ControllerAdvice
 public interface Handler<T extends Exception>

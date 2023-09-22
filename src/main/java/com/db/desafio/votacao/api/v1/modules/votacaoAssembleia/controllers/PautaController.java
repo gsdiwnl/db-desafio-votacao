@@ -16,7 +16,7 @@
  * Challenge: https://github.com/dbserver/desafio-votacao
  *
  */
-package db.desafio.votacao.api.v1.controllers;
+package com.db.desafio.votacao.api.v1.modules.votacaoAssembleia.controllers;
 
 import java.util.List;
 
@@ -29,15 +29,18 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import db.desafio.votacao.api.v1.controllers.util.Controller;
-import db.desafio.votacao.api.v1.models.Pauta;
-import db.desafio.votacao.api.v1.services.PautaService;
+import com.db.desafio.votacao.api.v1.modules.controllers.Controller;
+import com.db.desafio.votacao.api.v1.modules.votacaoAssembleia.controllers.swagger.PautaSwagger;
+import com.db.desafio.votacao.api.v1.modules.votacaoAssembleia.database.models.Pauta;
+import com.db.desafio.votacao.api.v1.modules.votacaoAssembleia.services.PautaService;
 
 @RestController
 @RequestMapping( path = Controller.VERSION + "pautas" )
 public class PautaController
     extends
         Controller
+    implements
+        PautaSwagger
 {
     @Autowired
     private PautaService pautaService;

@@ -16,7 +16,7 @@
  * Challenge: https://github.com/dbserver/desafio-votacao
  * 
  */
-package db.desafio.votacao;
+package com.db.desafio.votacao;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

@@ -1,7 +1,7 @@
 /**
- * Filename:    Associado.java
+ * Filename:    SessaoVoto.java
  *
- * Description: Implementation of the Associado class.
+ * Description: Implementation of the SessaoVoto class.
  *
  * Revision:    1.0
  *
@@ -16,13 +16,17 @@
  * Challenge: https://github.com/dbserver/desafio-votacao
  *
  */
-package db.desafio.votacao.api.v1.models;
+package com.db.desafio.votacao.api.v1.modules.votacaoAssembleia.database.models;
+
+import java.time.LocalDateTime;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -32,16 +36,20 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table( name = "associados" )
-public class Associado 
+@Table( name = "assembleia" )
+public class Assembleia 
 {
     @Id
     @GeneratedValue( strategy = GenerationType.UUID )
-    private String id;
+    private String id;    
     
-    @Column( name = "name", nullable = false )
-    private String name;
+    @ManyToOne
+    @JoinColumn( name = "pauta_id" )
+    private Pauta pauta;
 
-    @Column( name = "cpf", nullable = false )
-    private String cpf;
+    @Column( name = "start_date", nullable = false )
+    private LocalDateTime startDate;
+    
+    @Column( name = "end_date", nullable = false )
+    private LocalDateTime endDate;
 }

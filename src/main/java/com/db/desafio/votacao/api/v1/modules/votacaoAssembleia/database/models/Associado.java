@@ -1,7 +1,7 @@
 /**
- * Filename:    Pauta.java
+ * Filename:    Associado.java
  *
- * Description: Implementation of the Pauta class.
+ * Description: Implementation of the Associado class.
  *
  * Revision:    1.0
  *
@@ -16,7 +16,7 @@
  * Challenge: https://github.com/dbserver/desafio-votacao
  *
  */
-package db.desafio.votacao.api.v1.models;
+package com.db.desafio.votacao.api.v1.modules.votacaoAssembleia.database.models;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -32,16 +32,16 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table( name = "pautas" )
-public class Pauta 
+@Table( name = "associados" )
+public class Associado 
 {
     @Id
     @GeneratedValue( strategy = GenerationType.UUID )
     private String id;
-
+    
     @Column( name = "name", nullable = false )
     private String name;
 
-    @Column( name = "info", nullable = true )
-    private String info;
+    @Column( name = "cpf", nullable = false )
+    private String cpf;
 }

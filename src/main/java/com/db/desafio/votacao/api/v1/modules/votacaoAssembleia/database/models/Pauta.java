@@ -1,7 +1,7 @@
 /**
- * Filename:    Voto.java
+ * Filename:    Pauta.java
  *
- * Description: Implementation of the Voto class.
+ * Description: Implementation of the Pauta class.
  *
  * Revision:    1.0
  *
@@ -16,15 +16,13 @@
  * Challenge: https://github.com/dbserver/desafio-votacao
  *
  */
-package db.desafio.votacao.api.v1.models;
+package com.db.desafio.votacao.api.v1.modules.votacaoAssembleia.database.models;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -34,21 +32,16 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table( name = "votos" )
-public class Voto 
+@Table( name = "pautas" )
+public class Pauta 
 {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @GeneratedValue( strategy = GenerationType.UUID )
+    private String id;
 
-    @ManyToOne
-    @JoinColumn( name = "associado_id" )
-    private Associado associado;
+    @Column( name = "name", nullable = false )
+    private String name;
 
-    @ManyToOne
-    @JoinColumn( name = "pauta_id" )
-    private Pauta pauta;
-
-    @Column( name = "voto", nullable = false )
-    private boolean voto;
+    @Column( name = "info", nullable = true )
+    private String info;
 }

@@ -16,18 +16,18 @@
  * Challenge: https://github.com/dbserver/desafio-votacao
  *
  */
-package db.desafio.votacao.api.v1.services;
+package com.db.desafio.votacao.api.v1.modules.votacaoAssembleia.services;
 
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import db.desafio.votacao.api.v1.database.PautaRepository;
-import db.desafio.votacao.api.v1.models.Pauta;
+import com.db.desafio.votacao.api.v1.modules.votacaoAssembleia.database.PautaRepository;
+import com.db.desafio.votacao.api.v1.modules.votacaoAssembleia.database.models.Pauta;
 
 @Service
-public class PautaService 
+public class PautaService
 {
     @Autowired
     private PautaRepository pautaRepository;

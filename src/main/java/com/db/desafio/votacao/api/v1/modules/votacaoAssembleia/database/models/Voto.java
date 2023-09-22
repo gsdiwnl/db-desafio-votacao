@@ -1,7 +1,7 @@
 /**
- * Filename:    SessaoVoto.java
+ * Filename:    Voto.java
  *
- * Description: Implementation of the SessaoVoto class.
+ * Description: Implementation of the Voto class.
  *
  * Revision:    1.0
  *
@@ -16,9 +16,7 @@
  * Challenge: https://github.com/dbserver/desafio-votacao
  *
  */
-package db.desafio.votacao.api.v1.models;
-
-import java.time.LocalDateTime;
+package com.db.desafio.votacao.api.v1.modules.votacaoAssembleia.database.models;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -36,20 +34,21 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table( name = "sessao_votos" )
-public class SessaoVoto 
+@Table( name = "votos" )
+public class Voto 
 {
     @Id
-    @GeneratedValue( strategy = GenerationType.UUID )
-    private String id;    
-    
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @ManyToOne
+    @JoinColumn( name = "associado_id" )
+    private Associado associado;
+
     @ManyToOne
     @JoinColumn( name = "pauta_id" )
     private Pauta pauta;
 
-    @Column( name = "start_date", nullable = false )
-    private LocalDateTime startDate;
-    
-    @Column( name = "end_date", nullable = false )
-    private LocalDateTime endDate;
+    @Column( name = "voto", nullable = false )
+    private boolean voto;
 }

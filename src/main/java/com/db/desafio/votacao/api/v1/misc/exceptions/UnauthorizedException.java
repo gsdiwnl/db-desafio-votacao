@@ -1,7 +1,7 @@
 /**
- * Filename:    NotFoundException.java
+ * Filename:    UnauthorizedException.java
  *
- * Description: Implementation of the NotFoundException class.
+ * Description: Implementation of the UnauthorizedException class.
  *
  * Revision:    1.0
  *
@@ -16,41 +16,41 @@
  * Challenge: https://github.com/dbserver/desafio-votacao
  *
  */
-package db.desafio.votacao.api.v1.misc.exceptions;
+package com.db.desafio.votacao.api.v1.misc.exceptions;
 
 import org.springframework.http.HttpStatus;
 
-public class NotFoundException 
-    extends
+public class UnauthorizedException 
+    extends 
         RuntimeException
 {
     /**
-     * NotFoundException
+     * UnauthorizedException
      * 
      * @param message String
      */
-    public NotFoundException( String message )
+    public UnauthorizedException( String message )
     {
         super( message );
     }
 
     /**
-     * NotFoundException
+     * UnauthorizedException
      * 
      * @param cause Throwable
      */
-    public NotFoundException( Throwable cause )
+    public UnauthorizedException( Throwable cause )
     {
         super( cause );
     }
 
     /**
-     * NotFoundException
+     * UnauthorizedException
      * 
      * @param message String
      * @param cause Throwable
      */
-    public NotFoundException( String message, Throwable cause )
+    public UnauthorizedException( String message, Throwable cause )
     {
         super( message, cause );
     }
@@ -62,6 +62,6 @@ public class NotFoundException
      */
     public HttpStatus getStatus()
     {
-        return HttpStatus.NOT_FOUND;
+        return HttpStatus.UNAUTHORIZED;
     }
 }
