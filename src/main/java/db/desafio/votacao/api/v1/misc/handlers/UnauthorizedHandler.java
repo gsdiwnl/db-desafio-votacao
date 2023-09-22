@@ -18,7 +18,6 @@
  */
 package db.desafio.votacao.api.v1.misc.handlers;
 
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -41,6 +40,6 @@ public class UnauthorizedHandler
     @ExceptionHandler( UnauthorizedException.class )
     public ResponseEntity<Error> handle( UnauthorizedException ex ) 
     {
-        return response( ex.getMessage(), HttpStatus.BAD_REQUEST );
+        return response( ex.getMessage(), ex.getStatus() );
     }
 }

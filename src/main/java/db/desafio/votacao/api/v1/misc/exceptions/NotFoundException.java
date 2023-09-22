@@ -18,6 +18,8 @@
  */
 package db.desafio.votacao.api.v1.misc.exceptions;
 
+import org.springframework.http.HttpStatus;
+
 public class NotFoundException 
     extends
         RuntimeException
@@ -51,5 +53,15 @@ public class NotFoundException
     public NotFoundException( String message, Throwable cause )
     {
         super( message, cause );
+    }
+
+    /**
+     * getStatus
+     * 
+     * @return getStatus
+     */
+    public HttpStatus getStatus()
+    {
+        return HttpStatus.NOT_FOUND;
     }
 }

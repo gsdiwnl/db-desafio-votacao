@@ -18,6 +18,8 @@
  */
 package db.desafio.votacao.api.v1.misc.exceptions;
 
+import org.springframework.http.HttpStatus;
+
 public class UnauthorizedException 
     extends 
         RuntimeException
@@ -51,5 +53,15 @@ public class UnauthorizedException
     public UnauthorizedException( String message, Throwable cause )
     {
         super( message, cause );
+    }
+
+    /**
+     * getStatus
+     * 
+     * @return getStatus
+     */
+    public HttpStatus getStatus()
+    {
+        return HttpStatus.UNAUTHORIZED;
     }
 }
