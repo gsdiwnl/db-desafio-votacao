@@ -20,6 +20,8 @@ package com.db.desafio.votacao.api.v1.modules.votacaoAssembleia.services;
 
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -29,6 +31,8 @@ import com.db.desafio.votacao.api.v1.modules.votacaoAssembleia.database.models.P
 @Service
 public class PautaService
 {
+    private final Logger logger = LoggerFactory.getLogger( PautaService.class );
+
     @Autowired
     private PautaRepository pautaRepository;
 
@@ -39,6 +43,8 @@ public class PautaService
      */
     public List<Pauta> getPautas()
     {
+        logger.info("Método: Buscando pautas");
+        
         return this.pautaRepository.findAll();    
     }
 
@@ -50,6 +56,8 @@ public class PautaService
      */
     public Pauta createPauta( Pauta pauta )
     {
+        logger.info("Método: Cadastrando nova pauta - " + pauta.getName() );
+
         return this.pautaRepository.save( pauta );
     }
 }
