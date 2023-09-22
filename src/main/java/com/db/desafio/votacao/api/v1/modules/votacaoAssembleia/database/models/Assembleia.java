@@ -18,15 +18,20 @@
  */
 package com.db.desafio.votacao.api.v1.modules.votacaoAssembleia.database.models;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -40,12 +45,30 @@ import lombok.NoArgsConstructor;
 public class Assembleia 
 {
     @Id
-    @GeneratedValue( strategy = GenerationType.UUID )
-    private String id;    
+    @GeneratedValue( strategy = GenerationType.IDENTITY )
+    private long id;  
     
-    @ManyToOne
-    @JoinColumn( name = "pauta_id" )
-    private Pauta pauta;
+    private String name;
+    private String description;
+    private LocalDate creationDate;
+
+    @OneToMany( cascade = CascadeType.ALL )
+    @JoinTable(
+        name = "assembleia_pautas", 
+        joinColumns = {
+            @JoinColumn(
+                name = "assembleia_id", 
+                referencedColumnName = "id"
+            )
+        },
+        inverseJoinColumns = { 
+            @JoinColumn(
+                name = "pauta_id",
+                referencedColumnName = "id"
+            )
+        }
+    )
+    List<Pauta> pautas = new ArrayList<>();
 
     @Column( name = "start_date", nullable = false )
     private LocalDateTime startDate;

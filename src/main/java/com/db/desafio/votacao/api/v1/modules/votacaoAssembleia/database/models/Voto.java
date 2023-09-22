@@ -18,6 +18,8 @@
  */
 package com.db.desafio.votacao.api.v1.modules.votacaoAssembleia.database.models;
 
+import com.db.desafio.votacao.api.v1.modules.votacaoAssembleia.database.enums.VotoEnum;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -39,7 +41,7 @@ public class Voto
 {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private long id;
 
     @ManyToOne
     @JoinColumn( name = "associado_id" )
@@ -50,5 +52,5 @@ public class Voto
     private Pauta pauta;
 
     @Column( name = "voto", nullable = false )
-    private boolean voto;
+    private VotoEnum voto;
 }
