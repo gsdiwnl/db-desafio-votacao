@@ -1,0 +1,55 @@
+/**
+ * Filename:    BadRequestException.java
+ *
+ * Description: Implementation of the BadRequestException class.
+ *
+ * Revision:    1.0
+ *
+ * Changed by:  gd
+ *
+ * Author:      Gabriel Dullius
+ * Email:       dulliusgabriel@gmail.com
+ *
+ * Copyright of the computer program(s) contained herein
+ * is of intellectual property of the studying for the voting challenge by DB.
+ * The program(s) may be used and/or copied with permission.
+ * Challenge: https://github.com/dbserver/desafio-votacao
+ *
+ */
+package db.desafio.votacao.api.v1.misc.exceptions;
+
+public class BadRequestException 
+    extends
+        RuntimeException
+{
+    /**
+     * BadRequestException
+     * 
+     * @param message String
+     */
+    public BadRequestException( String message )
+    {
+        super( message );
+    }
+
+    /**
+     * BadRequestException
+     * 
+     * @param cause Throwable
+     */
+    public BadRequestException( Throwable cause )
+    {
+        super( cause );
+    }
+
+    /**
+     * BadRequestException
+     * 
+     * @param message String
+     * @param cause Throwable
+     */
+    public BadRequestException( String message, Throwable cause )
+    {
+        super( message, cause );
+    }
+}
