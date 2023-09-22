@@ -21,7 +21,6 @@ package com.db.desafio.votacao.api.v1.misc.handlers;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
-import org.springframework.web.bind.annotation.ExceptionHandler;
 
 import com.db.desafio.votacao.api.v1.misc.Error;
 
@@ -46,17 +45,5 @@ public interface Handler<T extends Exception>
     public default ResponseEntity<Error> response( String message, HttpStatus status )
     {
         return new ResponseEntity<Error>( new Error( status, message ), status );
-    }
-
-    /**
-     * handleGeneral
-     * 
-     * @param ex Exception
-     * @return ResponseEntity<Error>
-     */
-    @ExceptionHandler( Exception.class )
-    public default ResponseEntity<Error> handleGeneral( Exception ex )
-    {
-        return response( ex.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR );
     }
 }
