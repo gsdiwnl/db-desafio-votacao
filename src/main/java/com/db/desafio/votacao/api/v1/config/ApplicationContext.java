@@ -25,8 +25,9 @@ import com.db.desafio.votacao.api.v1.modules.controllers.Controller;
 public class ApplicationContext 
 {
     /**
+     * getServerBaseUrl
      * 
-     * @return
+     * @return String
      */
     public static String getServerBaseUrl() 
     {
