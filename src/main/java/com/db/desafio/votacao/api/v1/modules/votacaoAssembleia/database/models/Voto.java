@@ -19,6 +19,7 @@
 package com.db.desafio.votacao.api.v1.modules.votacaoAssembleia.database.models;
 
 import com.db.desafio.votacao.api.v1.modules.votacaoAssembleia.database.enums.VotoEnum;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -47,6 +48,7 @@ public class Voto
     @JoinColumn( name = "associado_id" )
     private Associado associado;
 
+    @JsonIgnore
     @ManyToOne
     @JoinColumn( name = "pauta_id" )
     private Pauta pauta;

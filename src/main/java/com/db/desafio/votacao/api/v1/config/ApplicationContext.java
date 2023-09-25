@@ -18,6 +18,9 @@
  */
 package com.db.desafio.votacao.api.v1.config;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.db.desafio.votacao.api.v1.modules.controllers.Controller;
@@ -34,5 +37,25 @@ public class ApplicationContext
         return ServletUriComponentsBuilder.fromCurrentContextPath()
                                             .build()
                                             .toUriString() + "/" + Controller.VERSION;
-    } 
+    }
+
+    /**
+     * today
+     * 
+     * @return LocalDate
+     */
+    public static LocalDate today()
+    {
+        return LocalDate.now();
+    }
+
+    /**
+     * now
+     * 
+     * @return LocalDateTime
+     */
+    public static LocalDateTime now()
+    {
+        return LocalDateTime.now();
+    }
 }

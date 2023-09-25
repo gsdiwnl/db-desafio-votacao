@@ -128,4 +128,14 @@ public class Pauta
             }
         }
     }
+
+    /**
+     * addVoto
+     * 
+     * @param voto Voto
+     */
+    public void addVoto( Voto voto )
+    {
+        this.votos.add( voto );
+    }
 }

@@ -25,6 +25,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.db.desafio.votacao.api.v1.config.ApplicationContext;
 import com.db.desafio.votacao.api.v1.modules.votacaoAssembleia.database.PautaRepository;
 import com.db.desafio.votacao.api.v1.modules.votacaoAssembleia.database.models.Pauta;
 
@@ -47,6 +48,30 @@ public class PautaService
         
         return this.pautaRepository.findAll();    
     }
+    
+    /**
+     * getPauta
+     * 
+     * @param id long
+     * @return List<Pauta>
+     */
+    public Pauta getPauta( long id )
+    {
+        logger.info("Método: Buscando pauta por ID: #" + id );
+        
+        return this.pautaRepository.findById( id )
+                                    .orElse( null );    
+    }
+
+    /**
+     * updatePauta
+     * 
+     * @param pauta Pauta
+     */
+    public void updatePauta( Pauta pauta )
+    {
+        this.pautaRepository.save( pauta );
+    }
 
     /**
      * createPauta
@@ -59,5 +84,21 @@ public class PautaService
         logger.info("Método: Cadastrando nova pauta: " + pauta.getName() );
 
         return this.pautaRepository.save( pauta );
+    }
+
+    /**
+     * isExpired
+     * 
+     * @param pauta Pauta
+     * @return boolean
+     */
+    public boolean isExpired( Pauta pauta )
+    {
+        if( pauta.getEndTime().isBefore( ApplicationContext.now() ))
+        {
+            return true;
+        }
+
+        return false;
     }
 }
