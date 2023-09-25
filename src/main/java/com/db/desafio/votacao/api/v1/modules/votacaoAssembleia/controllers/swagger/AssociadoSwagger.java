@@ -24,6 +24,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestBody;
 
+import com.db.desafio.votacao.api.v1.config.SwaggerConfig;
 import com.db.desafio.votacao.api.v1.misc.Error;
 import com.db.desafio.votacao.api.v1.modules.votacaoAssembleia.database.dto.RegisterAssociadoDTO;
 import com.db.desafio.votacao.api.v1.modules.votacaoAssembleia.database.models.Associado;
@@ -45,7 +46,7 @@ public interface AssociadoSwagger
         responses = {
             @ApiResponse(
                 responseCode = "200",
-                description = "Operação bem sucedida",
+                description = SwaggerConfig.SUCCESS_MESSAGE,
                 content = @Content( 
                             schema = @Schema( implementation = Associado.class ),
                             mediaType = MediaType.APPLICATION_JSON_VALUE
@@ -62,7 +63,7 @@ public interface AssociadoSwagger
         responses = {
             @ApiResponse(
                 responseCode = "200",
-                description = "Operação bem sucedida",
+                description = SwaggerConfig.SUCCESS_MESSAGE,
                 content = @Content( 
                             schema = @Schema( implementation = Associado.class ),
                             mediaType = MediaType.APPLICATION_JSON_VALUE
@@ -70,7 +71,15 @@ public interface AssociadoSwagger
             ),
             @ApiResponse(
                 responseCode = "400",
-                description = "Dados enviados inválidos ou associado já existe",
+                description = SwaggerConfig.BAD_REQUEST_MESSAGE,
+                content = @Content( 
+                            schema = @Schema( implementation = Error.class ),
+                            mediaType = MediaType.APPLICATION_JSON_VALUE
+                        )
+            ),
+            @ApiResponse(
+                responseCode = "403",
+                description = SwaggerConfig.FORBIDDEN_MESSAGE,
                 content = @Content( 
                             schema = @Schema( implementation = Error.class ),
                             mediaType = MediaType.APPLICATION_JSON_VALUE

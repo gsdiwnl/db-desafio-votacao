@@ -25,6 +25,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 
+import com.db.desafio.votacao.api.v1.config.SwaggerConfig;
 import com.db.desafio.votacao.api.v1.misc.Error;
 import com.db.desafio.votacao.api.v1.modules.votacaoAssembleia.database.dto.RegisterPautaDTO;
 import com.db.desafio.votacao.api.v1.modules.votacaoAssembleia.database.dto.PautaResultDTO;
@@ -46,7 +47,7 @@ public interface PautaSwagger
         responses = {
             @ApiResponse(
                 responseCode = "200",
-                description = "Operação bem sucedida",
+                description = SwaggerConfig.SUCCESS_MESSAGE,
                 content = @Content( 
                             schema = @Schema( implementation = Pauta.class ),
                             mediaType = MediaType.APPLICATION_JSON_VALUE
@@ -63,7 +64,7 @@ public interface PautaSwagger
         responses = {
             @ApiResponse(
                 responseCode = "201",
-                description = "Operação bem sucedida",
+                description = SwaggerConfig.SUCCESS_MESSAGE,
                 content = @Content( 
                             schema = @Schema( implementation = Pauta.class ),
                             mediaType = MediaType.APPLICATION_JSON_VALUE
@@ -71,7 +72,15 @@ public interface PautaSwagger
             ),
             @ApiResponse(
                 responseCode = "400",
-                description = "Dados enviados inválidos, confira documentação",
+                description = SwaggerConfig.BAD_REQUEST_MESSAGE,
+                content = @Content( 
+                            schema = @Schema( implementation = Error.class ),
+                            mediaType = MediaType.APPLICATION_JSON_VALUE
+                        )
+            ),
+            @ApiResponse(
+                responseCode = "404",
+                description = SwaggerConfig.NOT_FOUND_MESSAGE,
                 content = @Content( 
                             schema = @Schema( implementation = Error.class ),
                             mediaType = MediaType.APPLICATION_JSON_VALUE
@@ -88,7 +97,7 @@ public interface PautaSwagger
         responses = {
             @ApiResponse(
                 responseCode = "200",
-                description = "Operação bem sucedida",
+                description = SwaggerConfig.SUCCESS_MESSAGE,
                 content = @Content( 
                             schema = @Schema( implementation = PautaResultDTO.class ),
                             mediaType = MediaType.APPLICATION_JSON_VALUE
@@ -96,7 +105,7 @@ public interface PautaSwagger
             ),
             @ApiResponse(
                 responseCode = "404",
-                description = "Dados enviados inválidos, confira documentação",
+                description = SwaggerConfig.NOT_FOUND_MESSAGE,
                 content = @Content( 
                             schema = @Schema( implementation = Error.class ),
                             mediaType = MediaType.APPLICATION_JSON_VALUE

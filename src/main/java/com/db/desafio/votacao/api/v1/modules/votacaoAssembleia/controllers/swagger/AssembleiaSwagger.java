@@ -24,9 +24,10 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestBody;
 
+import com.db.desafio.votacao.api.v1.config.SwaggerConfig;
+import com.db.desafio.votacao.api.v1.misc.Error;
 import com.db.desafio.votacao.api.v1.modules.votacaoAssembleia.database.dto.RegisterAssembleiaDTO;
 import com.db.desafio.votacao.api.v1.modules.votacaoAssembleia.database.models.Assembleia;
-import com.db.desafio.votacao.api.v1.modules.votacaoAssembleia.database.models.Pauta;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -45,9 +46,9 @@ public interface AssembleiaSwagger
         responses = {
             @ApiResponse(
                 responseCode = "200",
-                description = "Operação bem sucedida",
+                description = SwaggerConfig.SUCCESS_MESSAGE,
                 content = @Content( 
-                            schema = @Schema( implementation = Pauta.class ),
+                            schema = @Schema( implementation = Assembleia.class ),
                             mediaType = MediaType.APPLICATION_JSON_VALUE
                         )
             )
@@ -62,9 +63,17 @@ public interface AssembleiaSwagger
         responses = {
             @ApiResponse(
                 responseCode = "200",
-                description = "Operação bem sucedida",
+                description = SwaggerConfig.SUCCESS_MESSAGE,
                 content = @Content( 
-                            schema = @Schema( implementation = Pauta.class ),
+                            schema = @Schema( implementation = Assembleia.class ),
+                            mediaType = MediaType.APPLICATION_JSON_VALUE
+                        )
+            ),
+            @ApiResponse(
+                responseCode = "400",
+                description = SwaggerConfig.BAD_REQUEST_MESSAGE,
+                content = @Content( 
+                            schema = @Schema( implementation = Error.class ),
                             mediaType = MediaType.APPLICATION_JSON_VALUE
                         )
             )

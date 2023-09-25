@@ -29,6 +29,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.db.desafio.votacao.api.v1.misc.exceptions.NotFoundException;
 import com.db.desafio.votacao.api.v1.modules.controllers.Controller;
 import com.db.desafio.votacao.api.v1.modules.votacaoAssembleia.controllers.swagger.PautaSwagger;
 import com.db.desafio.votacao.api.v1.modules.votacaoAssembleia.database.dto.PautaResultDTO;
@@ -78,6 +79,9 @@ public class PautaController
     {
         Assembleia assembleia = assembleiaService.getAssembleiaById( pautaDTO.getAssembleiaId() );
 
+        if( assembleia == null )
+            throw new NotFoundException("Assembleia not found for ID: #" + pautaDTO.getAssembleiaId() );
+            
         Pauta pauta = new Pauta();
 
         pauta.setDescription( pautaDTO.getDescription() );

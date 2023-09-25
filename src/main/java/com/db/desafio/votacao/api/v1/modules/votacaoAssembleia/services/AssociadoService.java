@@ -12,7 +12,7 @@ import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import com.db.desafio.votacao.api.v1.config.ApplicationContext;
-import com.db.desafio.votacao.api.v1.misc.exceptions.BadRequestException;
+import com.db.desafio.votacao.api.v1.misc.exceptions.ObjectAlreadyExistsException;
 import com.db.desafio.votacao.api.v1.modules.votacaoAssembleia.database.AssociadoRepository;
 import com.db.desafio.votacao.api.v1.modules.votacaoAssembleia.database.enums.AssociadoStatusEnum;
 import com.db.desafio.votacao.api.v1.modules.votacaoAssembleia.database.models.Associado;
@@ -63,7 +63,7 @@ public class AssociadoService
         logger.info("Método: Criar novo associado");
 
         if( getAssociadoByDocument( associado.getDocument() ) != null )
-            throw new BadRequestException( "Associado já existe para documento informado: " + associado.getDocument() );
+            throw new ObjectAlreadyExistsException( "Associado já existe para documento informado: " + associado.getDocument() );
 
         AssociadoStatusEnum status = validateDocument( associado.getDocument() ) ? AssociadoStatusEnum.ABLE_TO_VOTE : AssociadoStatusEnum.UNABLE_TO_VOTE;
         associado.setStatus( status );

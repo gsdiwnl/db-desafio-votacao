@@ -24,6 +24,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestBody;
 
+import com.db.desafio.votacao.api.v1.config.SwaggerConfig;
 import com.db.desafio.votacao.api.v1.misc.Error;
 import com.db.desafio.votacao.api.v1.modules.votacaoAssembleia.database.dto.RegisterVotoDTO;
 import com.db.desafio.votacao.api.v1.modules.votacaoAssembleia.database.models.Voto;
@@ -44,7 +45,7 @@ public interface VotoSwagger
         responses = {
             @ApiResponse(
                 responseCode = "200",
-                description = "Operação bem sucedida",
+                description = SwaggerConfig.SUCCESS_MESSAGE,
                 content = @Content( 
                             schema = @Schema( implementation = Voto.class ),
                             mediaType = MediaType.APPLICATION_JSON_VALUE
@@ -61,7 +62,7 @@ public interface VotoSwagger
         responses = {
             @ApiResponse(
                 responseCode = "200",
-                description = "Operação bem sucedida",
+                description = SwaggerConfig.SUCCESS_MESSAGE,
                 content = @Content( 
                             schema = @Schema( implementation = Voto.class ),
                             mediaType = MediaType.APPLICATION_JSON_VALUE
@@ -69,7 +70,7 @@ public interface VotoSwagger
             ),
             @ApiResponse(
                 responseCode = "400",
-                description = "Dados enviados inválidos",
+                description = SwaggerConfig.BAD_REQUEST_MESSAGE,
                 content = @Content( 
                             schema = @Schema( implementation = Error.class ),
                             mediaType = MediaType.APPLICATION_JSON_VALUE

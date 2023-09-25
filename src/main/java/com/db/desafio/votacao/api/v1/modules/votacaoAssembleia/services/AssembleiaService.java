@@ -25,7 +25,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.db.desafio.votacao.api.v1.misc.exceptions.NotFoundException;
+import com.db.desafio.votacao.api.v1.config.ApplicationContext;
+import com.db.desafio.votacao.api.v1.misc.exceptions.BadRequestException;
 import com.db.desafio.votacao.api.v1.modules.votacaoAssembleia.database.AssembleiaRepository;
 import com.db.desafio.votacao.api.v1.modules.votacaoAssembleia.database.models.Assembleia;
 
@@ -58,8 +59,7 @@ public class AssembleiaService
     {
         logger.info( "Método: Buscando assembleia por ID: #" + id );
         
-        return assembleiaRepository.findById( id )
-                                    .orElseThrow( () -> new NotFoundException("Assembleia not found for id: #" + id ));
+        return assembleiaRepository.findById( id ).orElse( null );
     }
 
     /**
@@ -71,6 +71,8 @@ public class AssembleiaService
     public Assembleia addAssembleia( Assembleia assembleia )
     {
         logger.info( "Método: Registrar nova assembleia" );
+
+        this.validDates( assembleia );
 
         return assembleiaRepository.save( assembleia );
     }
@@ -85,6 +87,24 @@ public class AssembleiaService
     {
         logger.info( "Método: Atualizar assembleia" );
 
+        this.validDates( assembleia );
+
         assembleiaRepository.save( assembleia );
+    }
+
+    /**
+     * validDates
+     * 
+     * @param assembleia Assembleia
+     */
+    public void validDates( Assembleia assembleia )
+    {
+        logger.info( "Método: Validação de datas de inicio e fim da Assembleia" );
+
+        if( assembleia.getStartDate().isBefore( ApplicationContext.today() ))
+            throw new BadRequestException("Assembleia (" + assembleia.getName() + ") não pode iniciar com data anterior ao dia atual");
+        
+        if( assembleia.getEndDate().isBefore( assembleia.getStartDate() ))
+            throw new BadRequestException("Data inicial da assembleia deve ser anterior à data final");
     }
 }
