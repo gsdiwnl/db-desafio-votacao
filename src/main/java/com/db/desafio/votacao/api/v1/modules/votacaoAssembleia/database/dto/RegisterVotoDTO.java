@@ -18,6 +18,7 @@
  */
 package com.db.desafio.votacao.api.v1.modules.votacaoAssembleia.database.dto;
 
+import com.db.desafio.votacao.api.v1.misc.annotations.CpfOrCnpj;
 import com.db.desafio.votacao.api.v1.modules.votacaoAssembleia.database.enums.VotoEnum;
 
 import jakarta.validation.constraints.NotNull;
@@ -33,6 +34,7 @@ import lombok.NoArgsConstructor;
 public class RegisterVotoDTO 
 {
     @NotNull( message = "Necessário informar o documento do(a) Associado(a)" )
+    @CpfOrCnpj()
     String documentAssociado;
     
     @NotNull( message = "Necessário informar o ID da Pauta" )

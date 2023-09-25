@@ -18,6 +18,8 @@
  */
 package com.db.desafio.votacao.api.v1.modules.votacaoAssembleia.database.dto;
 
+import com.db.desafio.votacao.api.v1.misc.annotations.CpfOrCnpj;
+
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -34,5 +36,6 @@ public class RegisterAssociadoDTO
 	private String name;
     
     @NotNull( message = "Necessário informar o documento (CPF ou CNPJ) do(a) Associado(a)" )
+    @CpfOrCnpj()
     private String document;
 }
