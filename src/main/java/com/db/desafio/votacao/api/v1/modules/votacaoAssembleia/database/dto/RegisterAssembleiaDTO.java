@@ -52,8 +52,8 @@ public class RegisterAssembleiaDTO
 	private LocalDate creationDate = LocalDate.now();
 
 	@Builder.Default
-	private LocalDateTime startDate = LocalDateTime.now();
+	private LocalDate startDate = LocalDate.now();
 	
     @Builder.Default
-	private LocalDateTime endDate = LocalDateTime.now().plusMinutes( 1 );
+	private LocalDate endDate = LocalDate.now().plusDays( 1 );
 }

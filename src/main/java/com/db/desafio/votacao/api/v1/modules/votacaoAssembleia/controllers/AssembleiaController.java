@@ -59,6 +59,12 @@ public class AssembleiaController
         return ok( assembleiaService.getAssembleias() );
     }
 
+    /**
+     * createAssembleia
+     * 
+     * @param assembleiaDTO RegisterAssembleiaDTO
+     * @return ResponseEntity<Assembleia>
+     */
     @PostMapping()
     public ResponseEntity<Assembleia> createAssembleia( @RequestBody @Valid RegisterAssembleiaDTO assembleiaDTO )
     {

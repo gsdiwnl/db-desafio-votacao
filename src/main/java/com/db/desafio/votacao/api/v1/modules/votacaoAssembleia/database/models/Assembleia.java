@@ -19,7 +19,6 @@
 package com.db.desafio.votacao.api.v1.modules.votacaoAssembleia.database.models;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -41,7 +40,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table( name = "assembleia" )
+@Table( name = "assembleias" )
 public class Assembleia 
 {
     @Id
@@ -71,8 +70,8 @@ public class Assembleia
     List<Pauta> pautas = new ArrayList<>();
 
     @Column( name = "start_date", nullable = false )
-    private LocalDateTime startDate;
+    private LocalDate startDate;
     
     @Column( name = "end_date", nullable = false )
-    private LocalDateTime endDate;
+    private LocalDate endDate;
 }

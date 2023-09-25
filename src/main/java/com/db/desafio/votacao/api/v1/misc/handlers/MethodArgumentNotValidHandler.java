@@ -26,6 +26,6 @@ public class MethodArgumentNotValidHandler
     @ExceptionHandler( MethodArgumentNotValidException.class )
     public ResponseEntity<Error> handle( MethodArgumentNotValidException ex )
     {
-        return response( ex.getAllErrors().stream().map( ObjectError::getDefaultMessage ).collect( Collectors.joining(" ") ), HttpStatus.BAD_REQUEST );
+        return response( ex.getAllErrors().stream().map( ObjectError::getDefaultMessage ).collect( Collectors.joining(", ") ), HttpStatus.BAD_REQUEST );
     }
 }
