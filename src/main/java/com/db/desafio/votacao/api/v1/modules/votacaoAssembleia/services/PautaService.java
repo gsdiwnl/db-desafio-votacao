@@ -54,7 +54,7 @@ public class PautaService
      * @param pauta Pauta
      * @return Pauta
      */
-    public Pauta createPauta( Pauta pauta )
+    public Pauta addPauta( Pauta pauta )
     {
         logger.info("Método: Cadastrando nova pauta - " + pauta.getName() );
 

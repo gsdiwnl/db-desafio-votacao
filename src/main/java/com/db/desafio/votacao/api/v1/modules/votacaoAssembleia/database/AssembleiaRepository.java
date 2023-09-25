@@ -26,7 +26,7 @@ import com.db.desafio.votacao.api.v1.modules.votacaoAssembleia.database.models.A
 @Repository
 public interface AssembleiaRepository 
     extends
-        JpaRepository<Assembleia, Integer> 
+        JpaRepository<Assembleia, Long> 
 {
 
 }

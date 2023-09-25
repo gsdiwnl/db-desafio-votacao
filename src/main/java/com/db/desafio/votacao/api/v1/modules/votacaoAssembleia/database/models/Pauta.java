@@ -76,8 +76,8 @@ public class Pauta
     )
 	private List<Voto> votos;
 
-    private LocalDateTime startDate;
-	private LocalDateTime endDate;
+    private LocalDateTime startTime;
+	private LocalDateTime endTime;
 
     @Transient
     @Enumerated( EnumType.STRING )
@@ -100,7 +100,7 @@ public class Pauta
      */
     public void updateStatus()
     {
-        if( endDate.isAfter( LocalDateTime.now() ))
+        if( endTime.isAfter( LocalDateTime.now() ))
         {
             this.status = PautaStatusEnum.AGUARDANDO_VOTACAO;
         }
@@ -108,8 +108,12 @@ public class Pauta
         {
             long approvedVotes = votos.stream().filter( voto -> voto.getVoto().equals( VotoEnum.SIM )).count();
             long reprovedVotes = votos.stream().filter( voto -> voto.getVoto().equals( VotoEnum.NAO )).count();
-    
-            if( approvedVotes == reprovedVotes ) 
+
+            if( approvedVotes == 0 && reprovedVotes == 0 )
+            {
+                this.status = PautaStatusEnum.ANULADA;
+            }
+            else if( approvedVotes == reprovedVotes ) 
             {
                 this.status = PautaStatusEnum.EMPATADA;
     

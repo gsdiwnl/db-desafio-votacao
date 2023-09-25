@@ -26,7 +26,7 @@ import com.db.desafio.votacao.api.v1.modules.votacaoAssembleia.database.models.P
 @Repository
 public interface PautaRepository 
     extends
-        JpaRepository<Pauta,Integer> 
+        JpaRepository<Pauta, Long> 
 {
     
 }

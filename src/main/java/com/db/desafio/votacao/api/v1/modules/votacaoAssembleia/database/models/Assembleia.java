@@ -74,4 +74,14 @@ public class Assembleia
     
     @Column( name = "end_date", nullable = false )
     private LocalDate endDate;
+
+    /**
+     * addPauta
+     * 
+     * @param pauta Pauta
+     */
+    public void addPauta( Pauta pauta )
+    {
+        this.pautas.add( pauta );
+    }
 }

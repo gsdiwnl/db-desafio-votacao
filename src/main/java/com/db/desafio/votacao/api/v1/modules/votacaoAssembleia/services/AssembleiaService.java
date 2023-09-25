@@ -25,6 +25,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.db.desafio.votacao.api.v1.misc.exceptions.NotFoundException;
 import com.db.desafio.votacao.api.v1.modules.votacaoAssembleia.database.AssembleiaRepository;
 import com.db.desafio.votacao.api.v1.modules.votacaoAssembleia.database.models.Assembleia;
 
@@ -47,6 +48,19 @@ public class AssembleiaService
         
         return assembleiaRepository.findAll();
     }
+   
+    /**
+     * getAssembleiaById
+     * 
+     * @return Assembleia
+     */
+    public Assembleia getAssembleiaById( long id )
+    {
+        logger.info( "Método: Buscando assembleia por ID: #" + id );
+        
+        return assembleiaRepository.findById( id )
+                                    .orElseThrow( () -> new NotFoundException("Assembleia not found for id: #" + id ));
+    }
 
     /**
      * addAssembleia
@@ -59,5 +73,18 @@ public class AssembleiaService
         logger.info( "Método: Registrar nova assembleia" );
 
         return assembleiaRepository.save( assembleia );
+    }
+    
+    /**
+     * updateAssembleia
+     * 
+     * @param assembleia Assembleia 
+     * @return Assembleia
+     */
+    public void updateAssembleia( Assembleia assembleia )
+    {
+        logger.info( "Método: Atualizar assembleia" );
+
+        assembleiaRepository.save( assembleia );
     }
 }

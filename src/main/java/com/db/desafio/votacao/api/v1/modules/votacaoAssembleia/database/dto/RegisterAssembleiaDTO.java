@@ -19,7 +19,6 @@
 package com.db.desafio.votacao.api.v1.modules.votacaoAssembleia.database.dto;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 

@@ -25,6 +25,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestBody;
 
 import com.db.desafio.votacao.api.v1.misc.Error;
+import com.db.desafio.votacao.api.v1.modules.votacaoAssembleia.database.dto.RegisterPautaDTO;
 import com.db.desafio.votacao.api.v1.modules.votacaoAssembleia.database.models.Pauta;
 
 import io.swagger.v3.oas.annotations.Operation;
@@ -76,5 +77,5 @@ public interface PautaSwagger
             )
         }
     )
-    public ResponseEntity<Pauta> createPauta( @RequestBody Pauta pauta );
+    public ResponseEntity<Pauta> createPauta( @RequestBody RegisterPautaDTO pautaDTO );
 }

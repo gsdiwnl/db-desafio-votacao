@@ -38,9 +38,11 @@ import lombok.NoArgsConstructor;
 @Data
 public class RegisterPautaDTO
 {
-
 	@NotNull( message = "Necessário informar o ID da Assembleia" )
-	String assembleiaId;
+	long assembleiaId;
+
+	@NotNull( message = "Necessário informar o nome da Pauta" )
+	String name;
 
 	@Builder.Default
 	private String description = "Sem descrição";
@@ -50,10 +52,10 @@ public class RegisterPautaDTO
 	private List<Voto> votos = new ArrayList<>();
 
 	@Builder.Default
-	private LocalDateTime inicio = LocalDateTime.now();
+	private LocalDateTime startTime = LocalDateTime.now();
 
 	@Builder.Default
-	private LocalDateTime fim = LocalDateTime.now().plusMinutes( 1 );
+	private LocalDateTime endTime = LocalDateTime.now().plusMinutes( 1 );
 
 	@Builder.Default
 	@JsonIgnore
