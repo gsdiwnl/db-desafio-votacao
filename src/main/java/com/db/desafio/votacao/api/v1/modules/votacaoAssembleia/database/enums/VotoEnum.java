@@ -27,7 +27,7 @@ public enum VotoEnum
     ABSTENCAO("Abstenção"),
     BRANCO("Branco");
 
-    private final String valor;
+    private final String value;
 
     /**
      * VotoEnum
@@ -36,7 +36,7 @@ public enum VotoEnum
      */
     VotoEnum( String voto ) 
     {
-        this.valor = voto;
+        this.value = voto;
     }
 
     /**
@@ -47,6 +47,6 @@ public enum VotoEnum
     @JsonValue
     public String getValue() 
     {
-        return valor;
+        return value;
     }
 }

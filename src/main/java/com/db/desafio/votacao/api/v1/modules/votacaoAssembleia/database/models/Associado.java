@@ -18,8 +18,12 @@
  */
 package com.db.desafio.votacao.api.v1.modules.votacaoAssembleia.database.models;
 
+import com.db.desafio.votacao.api.v1.modules.votacaoAssembleia.database.enums.AssociadoStatusEnum;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -42,6 +46,9 @@ public class Associado
     @Column( name = "name", nullable = false )
     private String name;
 
-    @Column( name = "cpf", nullable = false )
-    private String cpf;
+    @Column( name = "document", nullable = false )
+    private String document;
+
+    @Enumerated( EnumType.STRING )
+    private AssociadoStatusEnum status;
 }

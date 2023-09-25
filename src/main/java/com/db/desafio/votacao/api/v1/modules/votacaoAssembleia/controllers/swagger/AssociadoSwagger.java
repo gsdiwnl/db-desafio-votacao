@@ -1,7 +1,7 @@
 /**
- * Filename:    AssembleiaSwagger.java
+ * Filename:    AssociadoSwagger.java
  *
- * Description: Implementation of the AssembleiaSwagger class.
+ * Description: Implementation of the AssociadoSwagger class.
  *
  * Revision:    1.0
  *
@@ -24,9 +24,9 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestBody;
 
-import com.db.desafio.votacao.api.v1.modules.votacaoAssembleia.database.dto.RegisterAssembleiaDTO;
-import com.db.desafio.votacao.api.v1.modules.votacaoAssembleia.database.models.Assembleia;
-import com.db.desafio.votacao.api.v1.modules.votacaoAssembleia.database.models.Pauta;
+import com.db.desafio.votacao.api.v1.misc.Error;
+import com.db.desafio.votacao.api.v1.modules.votacaoAssembleia.database.dto.RegisterAssociadoDTO;
+import com.db.desafio.votacao.api.v1.modules.votacaoAssembleia.database.models.Associado;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -34,41 +34,49 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import jakarta.validation.Valid;
 
-public interface AssembleiaSwagger 
+public interface AssociadoSwagger 
 {
-    final String TAG_NAME = "Assembleia";
+    final String TAG_NAME = "Associado";
 
     @Operation(
-        operationId = "buscar assembleias",
-        summary = "Busca todas assembleias",
+        operationId = "buscar associados",
+        summary = "Busca todas associados",
         tags = { TAG_NAME },
         responses = {
             @ApiResponse(
                 responseCode = "200",
                 description = "Operação bem sucedida",
                 content = @Content( 
-                            schema = @Schema( implementation = Pauta.class ),
+                            schema = @Schema( implementation = Associado.class ),
                             mediaType = MediaType.APPLICATION_JSON_VALUE
                         )
             )
         }
     )
-    public ResponseEntity<List<Assembleia>> getAssembleias();
-
+    public ResponseEntity<List<Associado>> getAssociados();
+    
     @Operation(
-        operationId = "criar assembleia",
-        summary = "Criar nova assembleia",
+        operationId = "criar associado",
+        summary = "Cria um novo associado",
         tags = { TAG_NAME },
         responses = {
             @ApiResponse(
                 responseCode = "200",
                 description = "Operação bem sucedida",
                 content = @Content( 
-                            schema = @Schema( implementation = Pauta.class ),
+                            schema = @Schema( implementation = Associado.class ),
+                            mediaType = MediaType.APPLICATION_JSON_VALUE
+                        )
+            ),
+            @ApiResponse(
+                responseCode = "400",
+                description = "Dados enviados inválidos ou associado já existe",
+                content = @Content( 
+                            schema = @Schema( implementation = Error.class ),
                             mediaType = MediaType.APPLICATION_JSON_VALUE
                         )
             )
         }
     )
-    public ResponseEntity<Assembleia> createAssembleia( @RequestBody @Valid RegisterAssembleiaDTO assembleiaDTO );
+    public ResponseEntity<Associado> createAssociado( @RequestBody @Valid RegisterAssociadoDTO associadoDTO );
 }

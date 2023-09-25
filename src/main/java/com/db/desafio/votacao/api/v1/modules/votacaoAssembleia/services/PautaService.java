@@ -56,7 +56,7 @@ public class PautaService
      */
     public Pauta addPauta( Pauta pauta )
     {
-        logger.info("Método: Cadastrando nova pauta - " + pauta.getName() );
+        logger.info("Método: Cadastrando nova pauta: " + pauta.getName() );
 
         return this.pautaRepository.save( pauta );
     }

@@ -38,7 +38,7 @@ import lombok.NoArgsConstructor;
 public class RegisterAssembleiaDTO
 {
     @NotNull( message = "Necessário informar o nome da Assembleia" )
-	String name;
+	private String name;
 
 	@Builder.Default
 	private String description = "Sem descrição";

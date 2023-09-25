@@ -53,6 +53,7 @@ public class AssembleiaController
      * 
      * @return ResponseEntity<List<Assembleia>>
      */
+    @Override
     @GetMapping()
     public ResponseEntity<List<Assembleia>> getAssembleias()
     {
@@ -65,6 +66,7 @@ public class AssembleiaController
      * @param assembleiaDTO RegisterAssembleiaDTO
      * @return ResponseEntity<Assembleia>
      */
+    @Override
     @PostMapping()
     public ResponseEntity<Assembleia> createAssembleia( @RequestBody @Valid RegisterAssembleiaDTO assembleiaDTO )
     {

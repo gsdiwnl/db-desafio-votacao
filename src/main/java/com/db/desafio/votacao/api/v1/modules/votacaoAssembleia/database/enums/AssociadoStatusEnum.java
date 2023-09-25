@@ -1,7 +1,7 @@
 /**
- * Filename:    PautaStatusEnum.java
+ * Filename:    AssociadoStatusEnum.java
  *
- * Description: Implementation of the PautaStatusEnum class.
+ * Description: Implementation of the AssociadoStatusEnum class.
  *
  * Revision:    1.0
  *
@@ -20,22 +20,19 @@ package com.db.desafio.votacao.api.v1.modules.votacaoAssembleia.database.enums;
 
 import com.fasterxml.jackson.annotation.JsonValue;
 
-public enum PautaStatusEnum 
+public enum AssociadoStatusEnum 
 {
-    APROVADA("Aprovada"),
-    REPROVADA("Reprovada"),
-    AGUARDANDO_VOTACAO("Aguardando votação"),
-    EMPATADA("Empatada"),
-    ANULADA("Anulada");
+    ABLE_TO_VOTE("ABLE_TO_VOTE"),
+    UNABLE_TO_VOTE("UNABLE_TO_VOTE");
 
     private final String value;
 
     /**
-     * PautaStatusEnum
+     * AssociadoStatusEnum
      * 
      * @param status String
      */
-    PautaStatusEnum( String status ) 
+    AssociadoStatusEnum( String status ) 
     {
         this.value = status;
     }

@@ -39,10 +39,10 @@ import lombok.NoArgsConstructor;
 public class RegisterPautaDTO
 {
 	@NotNull( message = "Necessário informar o ID da Assembleia" )
-	long assembleiaId;
+	private long assembleiaId;
 
 	@NotNull( message = "Necessário informar o nome da Pauta" )
-	String name;
+	private String name;
 
 	@Builder.Default
 	private String description = "Sem descrição";
