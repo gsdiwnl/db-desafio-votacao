@@ -26,6 +26,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.db.desafio.votacao.api.v1.config.ApplicationContext;
+import com.db.desafio.votacao.api.v1.misc.exceptions.BadRequestException;
 import com.db.desafio.votacao.api.v1.misc.exceptions.NotFoundException;
 import com.db.desafio.votacao.api.v1.modules.votacaoAssembleia.database.PautaRepository;
 import com.db.desafio.votacao.api.v1.modules.votacaoAssembleia.database.dto.PautaResultDTO;
@@ -57,14 +58,14 @@ public class PautaService
      * getPauta
      * 
      * @param id long
-     * @return List<Pauta>
+     * @return Pauta
      */
     public Pauta getPauta( long id )
     {
         logger.info("Método: Buscando pauta por ID: #" + id );
         
         return this.pautaRepository.findById( id )
-                                    .orElse( null );    
+                                    .orElse( null );
     }
 
     /**
@@ -74,6 +75,10 @@ public class PautaService
      */
     public void updatePauta( Pauta pauta )
     {
+        logger.info("Método: Atualizar pauta" );
+
+        this.validDates( pauta );
+
         this.pautaRepository.save( pauta );
     }
 
@@ -86,6 +91,8 @@ public class PautaService
     public Pauta addPauta( Pauta pauta )
     {
         logger.info("Método: Cadastrando nova pauta: " + pauta.getName() );
+
+        this.validDates( pauta );
 
         return this.pautaRepository.save( pauta );
     }
@@ -155,5 +162,21 @@ public class PautaService
         result.setStatus( pauta.getStatus() );
 
         return result;
+    }
+
+    /**
+     * validDates
+     * 
+     * @param pauta Pauta
+     */
+    public void validDates( Pauta pauta )
+    {
+        logger.info( "Método: Validação de datas de inicio e fim da Assembleia" );
+
+        if( pauta.getStartTime().isBefore( ApplicationContext.now() ))
+            throw new BadRequestException("Pauta (" + pauta.getName() + ") não pode iniciar com horário anterior ao atual");
+        
+        if( pauta.getEndTime().isBefore( pauta.getStartTime() ))
+            throw new BadRequestException("Horário inicial da pauta deve ser anterior ao horário final");
     }
 }
