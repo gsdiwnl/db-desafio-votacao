@@ -26,5 +26,7 @@ class ApplicationStarterTests
 {
 	@Test
 	void contextLoads() 
-	{}
+	{
+		
+	}
 }
