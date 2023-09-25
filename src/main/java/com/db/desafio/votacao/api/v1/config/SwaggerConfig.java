@@ -48,6 +48,6 @@ public class SwaggerConfig
                                 .description("Repositório da API no GitHub")
                                 .url("https://github.com/gsdiwnl/db-desafio-votacao"))
                                 .addServersItem( new Server()
-                                                    .url( "http://localhost:8080/v1") );
+                                                    .url( "http://localhost:8080") );
     }
 }
