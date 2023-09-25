@@ -23,6 +23,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -30,6 +31,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.db.desafio.votacao.api.v1.modules.controllers.Controller;
 import com.db.desafio.votacao.api.v1.modules.votacaoAssembleia.controllers.swagger.PautaSwagger;
+import com.db.desafio.votacao.api.v1.modules.votacaoAssembleia.database.dto.PautaResultDTO;
 import com.db.desafio.votacao.api.v1.modules.votacaoAssembleia.database.dto.RegisterPautaDTO;
 import com.db.desafio.votacao.api.v1.modules.votacaoAssembleia.database.models.Assembleia;
 import com.db.desafio.votacao.api.v1.modules.votacaoAssembleia.database.models.Pauta;
@@ -90,5 +92,18 @@ public class PautaController
         assembleiaService.updateAssembleia( assembleia );
 
         return created( pauta );
+    }
+
+    /**
+     * getPautaResult
+     * 
+     * @param pautaId long
+     * @return ResponseEntity<PautaResultDTO>
+     */
+    @Override
+    @GetMapping("{pautaId}")
+    public ResponseEntity<PautaResultDTO> getPautaResult( @PathVariable("pautaId") long pautaId )
+    {
+        return ok( pautaService.getPautaResult( pautaId ));
     }
 }

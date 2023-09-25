@@ -26,8 +26,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.db.desafio.votacao.api.v1.config.ApplicationContext;
+import com.db.desafio.votacao.api.v1.misc.exceptions.NotFoundException;
 import com.db.desafio.votacao.api.v1.modules.votacaoAssembleia.database.PautaRepository;
+import com.db.desafio.votacao.api.v1.modules.votacaoAssembleia.database.dto.PautaResultDTO;
+import com.db.desafio.votacao.api.v1.modules.votacaoAssembleia.database.enums.VotoEnum;
 import com.db.desafio.votacao.api.v1.modules.votacaoAssembleia.database.models.Pauta;
+import com.db.desafio.votacao.api.v1.modules.votacaoAssembleia.database.models.Voto;
 
 @Service
 public class PautaService
@@ -100,5 +104,56 @@ public class PautaService
         }
 
         return false;
+    }
+
+    /**
+     * getPautaResult
+     * 
+     * @param pautaId long
+     * @return PautaResultDTO
+     */
+    public PautaResultDTO getPautaResult( long pautaId )
+    {
+        Pauta pauta = this.getPauta( pautaId ); 
+
+        if( pauta == null )
+            throw new NotFoundException("Pauta não encontrada para ID: #" + pautaId );
+            
+        PautaResultDTO result = new PautaResultDTO();
+
+        long approved = 0;
+        long rejected = 0;
+        long abstention = 0;
+        long protest = 0;
+
+        for( Voto voto : pauta.getVotos() )
+        {
+            if( voto.getVoto().equals( VotoEnum.SIM ))
+            {
+                approved++;
+            }
+            else if( voto.getVoto().equals( VotoEnum.NAO ))
+            {
+                rejected++;
+            }
+            else if( voto.getVoto().equals( VotoEnum.ABSTENCAO ))
+            {
+                abstention++;
+            }
+            else if( voto.getVoto().equals( VotoEnum.BRANCO ))
+            {
+                protest++;
+            }
+        }
+
+        result.setPautaId( pautaId );
+        result.setApproved( approved );
+        result.setRejected( rejected );
+        result.setAbstention( abstention );
+        result.setProtest( protest );
+        result.setTotal( pauta.getVotos().size() );
+        result.setStatus( pauta.getStatus() );
+
+        return result;
     }
 }

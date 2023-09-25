@@ -22,10 +22,12 @@ import java.util.List;
 
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 
 import com.db.desafio.votacao.api.v1.misc.Error;
 import com.db.desafio.votacao.api.v1.modules.votacaoAssembleia.database.dto.RegisterPautaDTO;
+import com.db.desafio.votacao.api.v1.modules.votacaoAssembleia.database.dto.PautaResultDTO;
 import com.db.desafio.votacao.api.v1.modules.votacaoAssembleia.database.models.Pauta;
 
 import io.swagger.v3.oas.annotations.Operation;
@@ -78,4 +80,29 @@ public interface PautaSwagger
         }
     )
     public ResponseEntity<Pauta> createPauta( @RequestBody RegisterPautaDTO pautaDTO );
+
+    @Operation(
+        operationId = "busca resultado pauta",
+        summary = "Busca os resultados de uma pauta",
+        tags = { TAG_NAME },
+        responses = {
+            @ApiResponse(
+                responseCode = "200",
+                description = "Operação bem sucedida",
+                content = @Content( 
+                            schema = @Schema( implementation = PautaResultDTO.class ),
+                            mediaType = MediaType.APPLICATION_JSON_VALUE
+                        )
+            ),
+            @ApiResponse(
+                responseCode = "404",
+                description = "Dados enviados inválidos, confira documentação",
+                content = @Content( 
+                            schema = @Schema( implementation = Error.class ),
+                            mediaType = MediaType.APPLICATION_JSON_VALUE
+                        )
+            )
+        }
+    )
+    public ResponseEntity<PautaResultDTO> getPautaResult( @PathVariable("pautaId") long pautaId );
 }
