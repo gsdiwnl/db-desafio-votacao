@@ -61,7 +61,7 @@ public interface VotoSwagger
         tags = { TAG_NAME },
         responses = {
             @ApiResponse(
-                responseCode = "200",
+                responseCode = "201",
                 description = SwaggerConfig.SUCCESS_MESSAGE,
                 content = @Content( 
                             schema = @Schema( implementation = Voto.class ),
