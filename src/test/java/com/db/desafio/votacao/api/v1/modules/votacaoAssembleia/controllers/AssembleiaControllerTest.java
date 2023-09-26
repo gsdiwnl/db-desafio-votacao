@@ -64,7 +64,7 @@ class AssembleiaControllerTest
 				.andExpect( jsonPath("$.id").value( 1 ))
 				.andExpect( jsonPath("$.startDate").value( mockAssembleia.getStartDate().toString() ))
 				.andExpect( jsonPath("$.endDate").value( mockAssembleia.getEndDate().toString() ))
-				.andExpect( jsonPath("$.description").value( mockAssembleia.getDescription() ) )
+				.andExpect( jsonPath("$.description").value( mockAssembleia.getDescription() ))
 				.andExpect( jsonPath("$.creationDate").value( ApplicationContext.today().toString() ));
 	}
 
@@ -98,7 +98,7 @@ class AssembleiaControllerTest
 				.andExpect( jsonPath("$.id").value( 1 ))
 				.andExpect( jsonPath("$.startDate").value( mockAssembleia.getStartDate().toString() ))
 				.andExpect( jsonPath("$.endDate").value( mockAssembleia.getEndDate().toString() ))
-				.andExpect( jsonPath("$.description").value( mockAssembleia.getDescription() ) )
+				.andExpect( jsonPath("$.description").value( mockAssembleia.getDescription() ))
 				.andExpect( jsonPath("$.creationDate").value( ApplicationContext.today().toString() ));
 	}
 

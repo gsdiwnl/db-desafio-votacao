@@ -23,7 +23,6 @@ import com.db.desafio.votacao.api.v1.modules.votacaoAssembleia.database.models.A
 
 public class AssembleiaStub
 {
-
     /**
      * createAssembleiaWithoutId
      * 

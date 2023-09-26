@@ -22,6 +22,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.db.desafio.votacao.api.v1.config.ApplicationContext;
 import com.db.desafio.votacao.api.v1.modules.votacaoAssembleia.database.models.Pauta;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -48,11 +49,11 @@ public class RegisterAssembleiaDTO
 	private List<Pauta> pautas = new ArrayList<>();
 
 	@Builder.Default
-	private LocalDate creationDate = LocalDate.now();
+	private LocalDate creationDate = ApplicationContext.today();
 
 	@Builder.Default
-	private LocalDate startDate = LocalDate.now();
+	private LocalDate startDate = ApplicationContext.today();
 	
     @Builder.Default
-	private LocalDate endDate = LocalDate.now().plusDays( 1 );
+	private LocalDate endDate = ApplicationContext.today().plusDays( 1 );
 }

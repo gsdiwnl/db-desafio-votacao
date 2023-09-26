@@ -21,11 +21,11 @@ package com.db.desafio.votacao.api.v1.modules.votacaoAssembleia.database.models;
 import java.time.LocalDateTime;
 import java.util.List;
 
+import com.db.desafio.votacao.api.v1.config.ApplicationContext;
 import com.db.desafio.votacao.api.v1.modules.votacaoAssembleia.database.enums.PautaStatusEnum;
 import com.db.desafio.votacao.api.v1.modules.votacaoAssembleia.database.enums.VotoEnum;
 
 import jakarta.persistence.CascadeType;
-import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
@@ -38,6 +38,7 @@ import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.persistence.Transient;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -45,6 +46,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
+@Builder
 @Table( name = "pautas" )
 public class Pauta 
 {
@@ -52,11 +54,10 @@ public class Pauta
     @GeneratedValue( strategy = GenerationType.IDENTITY )
     private long id;
 
-    @Column( name = "name", nullable = false )
     private String name;
-
-    @Column( name = "description", nullable = true )
-    private String description;
+    
+    @Builder.Default
+    private String description = "Sem descrição";
 
     @OneToMany( cascade = CascadeType.ALL )
 	@JoinTable(
@@ -100,7 +101,7 @@ public class Pauta
      */
     public void updateStatus()
     {
-        if( endTime.isAfter( LocalDateTime.now() ))
+        if( endTime.isAfter( ApplicationContext.now() ))
         {
             this.status = PautaStatusEnum.AGUARDANDO_VOTACAO;
         }

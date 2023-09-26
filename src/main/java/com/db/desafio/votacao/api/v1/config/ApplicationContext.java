@@ -56,6 +56,6 @@ public class ApplicationContext
      */
     public static LocalDateTime now()
     {
-        return LocalDateTime.now();
+        return LocalDateTime.now().withNano( 0 );
     }
 }

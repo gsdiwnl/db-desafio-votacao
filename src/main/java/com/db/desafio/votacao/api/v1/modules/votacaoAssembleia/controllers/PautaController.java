@@ -29,6 +29,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.db.desafio.votacao.api.v1.misc.exceptions.BadRequestException;
 import com.db.desafio.votacao.api.v1.misc.exceptions.NotFoundException;
 import com.db.desafio.votacao.api.v1.modules.controllers.Controller;
 import com.db.desafio.votacao.api.v1.modules.votacaoAssembleia.controllers.swagger.PautaSwagger;
@@ -82,6 +83,9 @@ public class PautaController
         if( assembleia == null )
             throw new NotFoundException("Assembleia not found for ID: #" + pautaDTO.getAssembleiaId() );
             
+        if( pautaDTO.getStartTime().toLocalDate().isBefore( assembleia.getStartDate() ))
+            throw new BadRequestException("Pauta não pode ser iniciada antes da data da Assembleia");
+
         Pauta pauta = new Pauta();
 
         pauta.setDescription( pautaDTO.getDescription() );

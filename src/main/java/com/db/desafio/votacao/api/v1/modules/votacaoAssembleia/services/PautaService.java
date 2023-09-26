@@ -173,8 +173,8 @@ public class PautaService
     {
         logger.info( "Método: Validação de datas de inicio e fim da Assembleia" );
 
-        if( pauta.getStartTime().isBefore( ApplicationContext.now() ))
-            throw new BadRequestException("Pauta (" + pauta.getName() + ") não pode iniciar com horário anterior ao atual");
+        if( pauta.getStartTime().toLocalDate().isBefore( ApplicationContext.today()))
+            throw new BadRequestException("Pauta (" + pauta.getName() + ") não pode iniciar com data anterior a atual");
         
         if( pauta.getEndTime().isBefore( pauta.getStartTime() ))
             throw new BadRequestException("Horário inicial da pauta deve ser anterior ao horário final");

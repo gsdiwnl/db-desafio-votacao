@@ -31,12 +31,10 @@ import java.util.Optional;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.function.Executable;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 
 import com.db.desafio.votacao.api.v1.misc.exceptions.BadRequestException;
-import com.db.desafio.votacao.api.v1.misc.exceptions.NotFoundException;
 import com.db.desafio.votacao.api.v1.modules.votacaoAssembleia.database.AssembleiaRepository;
 import com.db.desafio.votacao.api.v1.modules.votacaoAssembleia.database.models.Assembleia;
 import com.db.desafio.votacao.api.v1.modules.votacaoAssembleia.models.AssembleiaStub;
