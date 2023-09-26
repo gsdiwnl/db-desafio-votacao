@@ -22,6 +22,7 @@ import java.util.List;
 
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 
 import com.db.desafio.votacao.api.v1.config.SwaggerConfig;
@@ -55,6 +56,31 @@ public interface AssembleiaSwagger
         }
     )
     public ResponseEntity<List<Assembleia>> getAssembleias();
+
+    @Operation(
+        operationId = "buscar assembleia",
+        summary = "Busca assembleia pelo ID informado",
+        tags = { TAG_NAME },
+        responses = {
+            @ApiResponse(
+                responseCode = "200",
+                description = SwaggerConfig.SUCCESS_MESSAGE,
+                content = @Content( 
+                            schema = @Schema( implementation = Assembleia.class ),
+                            mediaType = MediaType.APPLICATION_JSON_VALUE
+                        )
+            ),
+            @ApiResponse(
+                responseCode = "404",
+                description = SwaggerConfig.NOT_FOUND_MESSAGE,
+                content = @Content( 
+                            schema = @Schema( implementation = Error.class ),
+                            mediaType = MediaType.APPLICATION_JSON_VALUE
+                        )
+            )
+        }
+    )
+    public ResponseEntity<Assembleia> getAssembleia( @PathVariable("assembleiaId") long assembleiaId );
 
     @Operation(
         operationId = "criar assembleia",

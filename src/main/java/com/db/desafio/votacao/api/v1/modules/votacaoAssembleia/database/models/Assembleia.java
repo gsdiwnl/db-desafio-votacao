@@ -22,6 +22,8 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.db.desafio.votacao.api.v1.config.ApplicationContext;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -33,6 +35,7 @@ import jakarta.persistence.JoinTable;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -40,6 +43,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
+@Builder
 @Table( name = "assembleias" )
 public class Assembleia 
 {
@@ -48,8 +52,12 @@ public class Assembleia
     private long id;  
     
     private String name;
-    private String description;
-    private LocalDate creationDate;
+    
+    @Builder.Default
+    private String description = "Sem descrição";
+
+    @Builder.Default
+    private LocalDate creationDate = ApplicationContext.today();
 
     @OneToMany( cascade = CascadeType.ALL )
     @JoinTable(
@@ -67,6 +75,7 @@ public class Assembleia
             )
         }
     )
+    @Builder.Default
     List<Pauta> pautas = new ArrayList<>();
 
     @Column( name = "start_date", nullable = false )

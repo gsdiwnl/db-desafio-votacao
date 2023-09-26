@@ -23,11 +23,13 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.db.desafio.votacao.api.v1.misc.exceptions.NotFoundException;
 import com.db.desafio.votacao.api.v1.modules.controllers.Controller;
 import com.db.desafio.votacao.api.v1.modules.votacaoAssembleia.controllers.swagger.AssembleiaSwagger;
 import com.db.desafio.votacao.api.v1.modules.votacaoAssembleia.database.dto.RegisterAssembleiaDTO;
@@ -58,6 +60,23 @@ public class AssembleiaController
     public ResponseEntity<List<Assembleia>> getAssembleias()
     {
         return ok( assembleiaService.getAssembleias() );
+    }
+
+    /**
+     * getAssembleia
+     * 
+     * @return ResponseEntity<Assembleia>
+     */
+    @Override
+    @GetMapping("{assembleiaId}")
+    public ResponseEntity<Assembleia> getAssembleia( @PathVariable("assembleiaId") long assembleiaId )
+    {
+        Assembleia assembleia = assembleiaService.getAssembleiaById( assembleiaId );
+
+        if( assembleia == null )
+            throw new NotFoundException( "Assembleia não encontrada para ID: #" + assembleiaId );
+
+        return ok( assembleia );
     }
 
     /**
