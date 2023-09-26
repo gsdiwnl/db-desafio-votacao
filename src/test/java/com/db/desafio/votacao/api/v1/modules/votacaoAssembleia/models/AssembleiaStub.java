@@ -55,4 +55,38 @@ public class AssembleiaStub
     
         return assembleia;
     }
+
+    /**
+     * createAssembleiaWithId
+     * 
+     * @return Assembleia
+     */
+    public static Assembleia createAssembleiaWithId()
+    {
+        Assembleia assembleia = Assembleia.builder()
+                                            .id( 1 )
+                                            .name("Assembleia originada de TESTES")
+                                            .startDate( ApplicationContext.today() )
+                                            .endDate( ApplicationContext.today().plusDays( 1 ))
+                                            .build();
+
+        return assembleia;
+    }
+    
+    /**
+     * createAssembleiaWithEndDateBefore
+     * 
+     * @return Assembleia
+     */
+    public static Assembleia createAssembleiaWithEndDateBefore()
+    {
+        Assembleia assembleia = Assembleia.builder()
+                                            .id( 1 )
+                                            .name("Assembleia originada de TESTES")
+                                            .startDate( ApplicationContext.today() )
+                                            .endDate( ApplicationContext.today().minusDays( 1 ))
+                                            .build();
+
+        return assembleia;
+    }
 }

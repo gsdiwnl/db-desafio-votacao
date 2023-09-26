@@ -52,7 +52,7 @@ class AssembleiaControllerTest
 	private String PATH = "/v1/assembleias";
 
 	@Test
-	@DisplayName("[POST] Deve criar uma Assembleia")
+	@DisplayName("[POST] Deve retornar Ok ao criar uma Assembleia")
 	public void Should_ReturnCreated_CreateAssembleia() throws Exception 
 	{
 		final Assembleia mockAssembleia = AssembleiaStub.createAssembleiaWithoutId();
@@ -69,7 +69,7 @@ class AssembleiaControllerTest
 	}
 
 	@Test
-	@DisplayName("[POST] Deve falhar ao criar uma Assembleia com datas inválidas")
+	@DisplayName("[POST] Deve retornar BadRequest ao criar uma Assembleia com datas inválidas")
 	public void Should_ReturnBadRequest_CreateAssembleia() throws Exception
 	{
 		final Assembleia mockAssembleia = AssembleiaStub.createAssembleiaWithWrongDates();
@@ -88,8 +88,8 @@ class AssembleiaControllerTest
 		@Sql( executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD, scripts = QueryProvider.insertAssembleia ),
 		@Sql( executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD, scripts = QueryProvider.resetDB )
 	})
-	@DisplayName("[GET] Deve buscar uma Assembleia pelo ID informado")
-	public void Should_ReturnOk_getAssembleiaById() throws Exception
+	@DisplayName("[GET] Deve retornar Ok ao buscar uma Assembleia pelo ID informado")
+	public void Should_ReturnOk_GetAssembleiaById() throws Exception
 	{
 		final Assembleia mockAssembleia = AssembleiaStub.createAssembleiaWithoutId();
 		
@@ -100,5 +100,18 @@ class AssembleiaControllerTest
 				.andExpect( jsonPath("$.endDate").value( mockAssembleia.getEndDate().toString() ))
 				.andExpect( jsonPath("$.description").value( mockAssembleia.getDescription() ) )
 				.andExpect( jsonPath("$.creationDate").value( ApplicationContext.today().toString() ));
+	}
+
+	@Test
+	@DisplayName("[GET] Deve retornar NotFound ao buscar uma Assembleia pelo ID inválido")
+	public void Should_ReturnNotFoundException_GetAssembleiaById() throws Exception
+	{
+		long assembleiaId = -1;
+
+		mockMvc.perform( get( PATH + "/{assembleiaId}", assembleiaId ))
+				.andExpect( status().isNotFound() )
+				.andExpect( jsonPath("$.code").value( 404 ))
+				.andExpect( jsonPath("$.status").value( "Not Found" ))
+				.andExpect( jsonPath("$.message").value( "Assembleia não encontrada para ID: #" + assembleiaId ));
 	}
 }
