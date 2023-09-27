@@ -22,4 +22,5 @@ public class QueryProvider
 {
     public static final String resetDB = "/resetDB.sql";
     public static final String insertAssembleia = "/insertAssembleia.sql";
+    public static final String insertPauta = "/insertPauta.sql";
 }

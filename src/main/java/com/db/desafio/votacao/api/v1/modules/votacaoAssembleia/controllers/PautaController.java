@@ -81,10 +81,11 @@ public class PautaController
         Assembleia assembleia = assembleiaService.getAssembleiaById( pautaDTO.getAssembleiaId() );
 
         if( assembleia == null )
-            throw new NotFoundException("Assembleia not found for ID: #" + pautaDTO.getAssembleiaId() );
-            
-        if( pautaDTO.getStartTime().toLocalDate().isBefore( assembleia.getStartDate() ))
-            throw new BadRequestException("Pauta não pode ser iniciada antes da data da Assembleia");
+            throw new NotFoundException( "Assembleia not found for ID: #" + pautaDTO.getAssembleiaId() );
+
+        if( pautaDTO.getStartTime().toLocalDate().isBefore( assembleia.getStartDate() )
+         || pautaDTO.getEndTime().toLocalDate().isAfter( assembleia.getEndDate() ))
+            throw new BadRequestException("Data inicial e final da Pauta devem estar dentro do escopo de datas da Assembleia" );
 
         Pauta pauta = new Pauta();
 

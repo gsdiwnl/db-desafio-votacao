@@ -124,7 +124,7 @@ public class PautaService
         Pauta pauta = this.getPauta( pautaId ); 
 
         if( pauta == null )
-            throw new NotFoundException("Pauta não encontrada para ID: #" + pautaId );
+            throw new NotFoundException( "Pauta não encontrada para ID: #" + pautaId );
             
         PautaResultDTO result = new PautaResultDTO();
 
@@ -154,6 +154,7 @@ public class PautaService
         }
 
         result.setPautaId( pautaId );
+        result.setDescription( pauta.getDescription() );
         result.setApproved( approved );
         result.setRejected( rejected );
         result.setAbstention( abstention );

@@ -19,6 +19,7 @@
 package com.db.desafio.votacao.api.v1.modules.votacaoAssembleia.controllers;
 
 import static com.db.desafio.votacao.api.v1.misc.Serializer.json;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -73,5 +74,73 @@ public class PautaControllerTest
 				.andExpect( jsonPath("$.status").value( PautaStatusEnum.AGUARDANDO_VOTACAO.getValue() ));
     }
 
+	@Test
+	@Sql( executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD, scripts = QueryProvider.resetDB )
+	@DisplayName("[POST] Deve retornar NotFound ao criar uma Pauta e não existir Assembleia")
+	public void Should_ReturnNotFound_CreatePauta() throws Exception
+	{
+		final RegisterPautaDTO mockPautaDTO = PautaStub.createPautaWithoutId();
+		
+		mockMvc.perform( post( PATH )
+						.contentType( MediaType.APPLICATION_JSON )
+						.content( json( mockPautaDTO )))
+				.andExpect( status().isNotFound() )
+				.andExpect( jsonPath("$.code").value( 404 ))
+				.andExpect( jsonPath("$.status").value( "Not Found" ))
+				.andExpect( jsonPath("$.message").value( "Assembleia not found for ID: #" + mockPautaDTO.getAssembleiaId() ));
+	}
+	
+	@Test
+	@SqlGroup({
+        @Sql( executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD, scripts = QueryProvider.insertAssembleia ),
+        @Sql( executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD, scripts = QueryProvider.resetDB ),
+    })
+	@DisplayName("[POST] Deve retornar BadRequest ao criar uma Pauta com datas inválidas")
+	public void Should_ReturnBadRequest_CreatePautaWithWrongDates() throws Exception
+	{
+		final RegisterPautaDTO mockPautaDTO = PautaStub.createPautaWithWrongDates();
+		
+		mockMvc.perform( post( PATH )
+						.contentType( MediaType.APPLICATION_JSON )
+						.content( json( mockPautaDTO )))
+				.andExpect( status().isBadRequest() )
+				.andExpect( jsonPath("$.code").value( 400 ))
+				.andExpect( jsonPath("$.status").value( "Bad Request" ))
+				.andExpect( jsonPath("$.message").value( "Data inicial e final da Pauta devem estar dentro do escopo de datas da Assembleia" ));
+	}
 
+	@Test
+	@SqlGroup({
+        @Sql( executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD, scripts = QueryProvider.insertPauta ),
+        @Sql( executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD, scripts = QueryProvider.resetDB ),
+    })
+	@DisplayName("[GET] Deve retornar Ok ao buscar o resultado da Pauta")
+	public void Should_ReturnOk_GetPautaResult() throws Exception
+	{
+		long pautaId = 1;
+
+		mockMvc.perform( get( PATH + "/{pautaId}", pautaId ))
+				.andExpect( status().isOk() )
+				.andExpect( jsonPath("$.pautaId").value( pautaId ))
+				.andExpect( jsonPath("$.description").value( "Sem descrição" ))
+				.andExpect( jsonPath("$.approved").value( 0 ))
+				.andExpect( jsonPath("$.rejected").value( 0 ))
+				.andExpect( jsonPath("$.abstention").value( 0 ))
+				.andExpect( jsonPath("$.protest").value( 0 ))
+				.andExpect( jsonPath("$.total").value( 0 ))
+				.andExpect( jsonPath("$.status").value( PautaStatusEnum.AGUARDANDO_VOTACAO.getValue() ));
+	}
+
+	@Test
+	@DisplayName("[POST] Deve retornar NotFound ao buscar o resultado da Pauta que não existe")
+	public void Should_ReturnNotFound_GetPautaResult() throws Exception
+	{
+		long pautaId = -1;
+
+		mockMvc.perform( get( PATH + "/{pautaId}", pautaId ))
+				.andExpect( status().isNotFound() )
+				.andExpect( jsonPath("$.code").value( 404 ))
+				.andExpect( jsonPath("$.status").value( "Not Found" ))
+				.andExpect( jsonPath("$.message").value( "Pauta não encontrada para ID: #" + pautaId ));
+	}
 }
