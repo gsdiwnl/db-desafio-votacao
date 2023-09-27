@@ -59,7 +59,7 @@ public class PautaControllerTest
 	@DisplayName("[POST] Deve retornar Ok ao criar uma Pauta")
     public void Should_ReturnOk_CreatePauta() throws Exception
     {
-        final RegisterPautaDTO mockPautaDTO = PautaStub.createPautaWithoutId();
+        final RegisterPautaDTO mockPautaDTO = PautaStub.createPautaDTOWithoutId();
 		
 		mockMvc.perform( post( PATH )
 						.contentType( MediaType.APPLICATION_JSON )
@@ -79,7 +79,7 @@ public class PautaControllerTest
 	@DisplayName("[POST] Deve retornar NotFound ao criar uma Pauta e não existir Assembleia")
 	public void Should_ReturnNotFound_CreatePauta() throws Exception
 	{
-		final RegisterPautaDTO mockPautaDTO = PautaStub.createPautaWithoutId();
+		final RegisterPautaDTO mockPautaDTO = PautaStub.createPautaDTOWithoutId();
 		
 		mockMvc.perform( post( PATH )
 						.contentType( MediaType.APPLICATION_JSON )
@@ -98,7 +98,7 @@ public class PautaControllerTest
 	@DisplayName("[POST] Deve retornar BadRequest ao criar uma Pauta com datas inválidas")
 	public void Should_ReturnBadRequest_CreatePautaWithWrongDates() throws Exception
 	{
-		final RegisterPautaDTO mockPautaDTO = PautaStub.createPautaWithWrongDates();
+		final RegisterPautaDTO mockPautaDTO = PautaStub.createPautaDTOWithWrongDates();
 		
 		mockMvc.perform( post( PATH )
 						.contentType( MediaType.APPLICATION_JSON )

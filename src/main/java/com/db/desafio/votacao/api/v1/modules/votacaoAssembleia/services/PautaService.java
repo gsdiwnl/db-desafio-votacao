@@ -60,7 +60,7 @@ public class PautaService
      * @param id long
      * @return Pauta
      */
-    public Pauta getPauta( long id )
+    public Pauta getPautaById( long id )
     {
         logger.info("Método: Buscando pauta por ID: #" + id );
         
@@ -121,7 +121,7 @@ public class PautaService
      */
     public PautaResultDTO getPautaResult( long pautaId )
     {
-        Pauta pauta = this.getPauta( pautaId ); 
+        Pauta pauta = this.getPautaById( pautaId ); 
 
         if( pauta == null )
             throw new NotFoundException( "Pauta não encontrada para ID: #" + pautaId );

@@ -19,6 +19,7 @@
 package com.db.desafio.votacao.api.v1.modules.votacaoAssembleia.database.models;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 import com.db.desafio.votacao.api.v1.config.ApplicationContext;
@@ -75,7 +76,8 @@ public class Pauta
             )
         }
     )
-	private List<Voto> votos;
+    @Builder.Default
+	private List<Voto> votos = new ArrayList<Voto>();
 
     private LocalDateTime startTime;
 	private LocalDateTime endTime;
