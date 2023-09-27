@@ -42,7 +42,7 @@ public class RegisterAssembleiaDTO
 	private String name;
 
 	@Builder.Default
-	private String description = "Sem descrição";
+	private String description = "";
 
 	@Builder.Default
 	@JsonIgnore

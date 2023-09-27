@@ -32,7 +32,9 @@ import lombok.NoArgsConstructor;
 public class PautaResultDTO 
 {
     long pautaId;
-    String description;
+
+    @Builder.Default
+    String description = "";
 
     long approved;
     long rejected;

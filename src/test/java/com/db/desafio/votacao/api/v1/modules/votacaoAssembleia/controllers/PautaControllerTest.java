@@ -122,7 +122,7 @@ public class PautaControllerTest
 		mockMvc.perform( get( PATH + "/{pautaId}", pautaId ))
 				.andExpect( status().isOk() )
 				.andExpect( jsonPath("$.pautaId").value( pautaId ))
-				.andExpect( jsonPath("$.description").value( "Sem descrição" ))
+				.andExpect( jsonPath("$.description").value( "" ))
 				.andExpect( jsonPath("$.approved").value( 0 ))
 				.andExpect( jsonPath("$.rejected").value( 0 ))
 				.andExpect( jsonPath("$.abstention").value( 0 ))

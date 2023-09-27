@@ -54,7 +54,7 @@ public class Assembleia
     private String name;
     
     @Builder.Default
-    private String description = "Sem descrição";
+    private String description = "";
 
     @Builder.Default
     private LocalDate creationDate = ApplicationContext.today();

@@ -74,7 +74,7 @@ public class VotoController
         if( associado == null )
             throw new NotFoundException("Associado não encontrado para documento: " + votoDTO.getDocumentAssociado() );
             
-        Pauta pauta = pautaService.getPauta( votoDTO.getPautaId() );
+        Pauta pauta = pautaService.getPautaById( votoDTO.getPautaId() );
 
         if( pauta == null )
             throw new NotFoundException("Pauta não encontrada para ID: #" + votoDTO.getPautaId() );

@@ -36,7 +36,6 @@ public class PautaStub
         Pauta pauta = Pauta.builder()
                             .id( 1L )
                             .name( "Pauta originada de TESTES" )
-                            .description("Sem descrição" )
                             .startTime( ApplicationContext.now() )
                             .endTime( ApplicationContext.now().plusMinutes( 1 ))
                             .build();
@@ -120,7 +119,6 @@ public class PautaStub
     {
         PautaResultDTO pauta = PautaResultDTO.builder()
                                                 .pautaId( 1 )
-                                                .description( "Sem descrição" )
                                                 .approved( 0 )
                                                 .rejected( 0 )
                                                 .abstention( 0 )
