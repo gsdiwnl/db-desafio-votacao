@@ -1,7 +1,7 @@
 /**
- * Filename:    AssembleiaSwagger.java
+ * Filename:    RegisterPautaDTO.java
  *
- * Description: Implementation of the AssembleiaSwagger class.
+ * Description: Implementation of the RegisterPautaDTO class.
  *
  * Revision:    1.0
  *
