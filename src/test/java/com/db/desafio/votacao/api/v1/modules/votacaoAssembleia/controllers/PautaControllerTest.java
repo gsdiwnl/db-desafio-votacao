@@ -87,7 +87,7 @@ public class PautaControllerTest
 				.andExpect( status().isNotFound() )
 				.andExpect( jsonPath("$.code").value( 404 ))
 				.andExpect( jsonPath("$.status").value( "Not Found" ))
-				.andExpect( jsonPath("$.message").value( "Assembleia not found for ID: #" + mockPautaDTO.getAssembleiaId() ));
+				.andExpect( jsonPath("$.message").value( "Assembleia não encontrada para ID: #" + mockPautaDTO.getAssembleiaId() ));
 	}
 	
 	@Test

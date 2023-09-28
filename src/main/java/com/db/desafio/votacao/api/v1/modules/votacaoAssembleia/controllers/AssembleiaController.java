@@ -29,7 +29,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.db.desafio.votacao.api.v1.misc.exceptions.NotFoundException;
 import com.db.desafio.votacao.api.v1.modules.controllers.Controller;
 import com.db.desafio.votacao.api.v1.modules.votacaoAssembleia.controllers.swagger.AssembleiaSwagger;
 import com.db.desafio.votacao.api.v1.modules.votacaoAssembleia.database.dto.RegisterAssembleiaDTO;
@@ -71,12 +70,7 @@ public class AssembleiaController
     @GetMapping("{assembleiaId}")
     public ResponseEntity<Assembleia> getAssembleia( @PathVariable("assembleiaId") long assembleiaId )
     {
-        Assembleia assembleia = assembleiaService.getAssembleiaById( assembleiaId );
-
-        if( assembleia == null )
-            throw new NotFoundException( "Assembleia não encontrada para ID: #" + assembleiaId );
-
-        return ok( assembleia );
+        return ok( assembleiaService.getAssembleiaById( assembleiaId ));
     }
 
     /**
@@ -89,15 +83,7 @@ public class AssembleiaController
     @PostMapping()
     public ResponseEntity<Assembleia> createAssembleia( @RequestBody @Valid RegisterAssembleiaDTO assembleiaDTO )
     {
-        Assembleia assembleia = new Assembleia();
-
-        assembleia.setName( assembleiaDTO.getName() );
-        assembleia.setDescription( assembleiaDTO.getDescription() );
-        assembleia.setCreationDate( assembleiaDTO.getCreationDate() );
-        assembleia.setStartDate( assembleiaDTO.getStartDate() );
-        assembleia.setEndDate( assembleiaDTO.getEndDate() );
-
-        return created( assembleiaService.addAssembleia( assembleia ));
+        return created( assembleiaService.createAssembleia( assembleiaDTO ));
     }
 }
 

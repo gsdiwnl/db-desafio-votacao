@@ -27,7 +27,9 @@ import org.springframework.stereotype.Service;
 
 import com.db.desafio.votacao.api.v1.config.ApplicationContext;
 import com.db.desafio.votacao.api.v1.misc.exceptions.BadRequestException;
+import com.db.desafio.votacao.api.v1.misc.exceptions.NotFoundException;
 import com.db.desafio.votacao.api.v1.modules.votacaoAssembleia.database.AssembleiaRepository;
+import com.db.desafio.votacao.api.v1.modules.votacaoAssembleia.database.dto.RegisterAssembleiaDTO;
 import com.db.desafio.votacao.api.v1.modules.votacaoAssembleia.database.models.Assembleia;
 
 @Service
@@ -53,13 +55,36 @@ public class AssembleiaService
     /**
      * getAssembleiaById
      * 
+     * @param assembleiaId long
      * @return Assembleia
      */
-    public Assembleia getAssembleiaById( long id )
+    public Assembleia getAssembleiaById( long assembleiaId )
     {
-        logger.info( "Método: Buscando assembleia por ID: #" + id );
+        logger.info( "Método: Buscando assembleia por ID: #" + assembleiaId );
         
-        return assembleiaRepository.findById( id ).orElse( null );
+        return assembleiaRepository.findById( assembleiaId )
+                                    .orElseThrow( () -> new NotFoundException( "Assembleia não encontrada para ID: #" + assembleiaId ));
+    }
+
+    /**
+     * createAssembleia
+     * 
+     * @param dto RegisterAssembleiaDTO
+     * @return Assembleia
+     */
+    public Assembleia createAssembleia( RegisterAssembleiaDTO dto )
+    {
+        logger.info( "Método: Criar nova assembleia" );
+
+        Assembleia assembleia = Assembleia.builder()
+                                        .name( dto.getName() )
+                                        .description( dto.getDescription() )
+                                        .creationDate( dto.getCreationDate() )
+                                        .startDate( dto.getStartDate() )
+                                        .endDate( dto.getEndDate() )
+                                        .build();
+
+        return addAssembleia( assembleia );
     }
 
     /**
@@ -70,7 +95,7 @@ public class AssembleiaService
      */
     public Assembleia addAssembleia( Assembleia assembleia )
     {
-        logger.info( "Método: Registrar nova assembleia" );
+        logger.info( "Método: Salvar nova assembleia" );
 
         this.validDates( assembleia );
 
