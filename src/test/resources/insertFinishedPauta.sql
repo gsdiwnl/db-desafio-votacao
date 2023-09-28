@@ -5,6 +5,6 @@ VALUES (
     1,
     'Pauta originada de TESTES',
     '',
-    CURRENT_TIMESTAMP(),
-    DATEADD('MINUTE', 1, CURRENT_TIMESTAMP() )
+    DATEADD( 'DAY', -1, CURRENT_TIMESTAMP() ),
+    DATEADD( 'DAY', -1, DATEADD('MINUTE', 1, CURRENT_TIMESTAMP() ))
 );

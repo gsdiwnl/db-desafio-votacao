@@ -132,6 +132,101 @@ public class PautaControllerTest
 	}
 
 	@Test
+	@SqlGroup({
+        @Sql( executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD, scripts = QueryProvider.insertFinishedPauta ),
+        @Sql( executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD, scripts = QueryProvider.insertAssociadoAbleToVote ),
+        @Sql( executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD, scripts = QueryProvider.insertVotoSim ),
+        @Sql( executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD, scripts = QueryProvider.resetDB ),
+    })
+	@DisplayName("[GET] Deve retornar Ok ao buscar o resultado da Pauta aprovada")
+	public void Should_ReturnOk_GetPautaResult_Approved() throws Exception
+	{
+		long pautaId = 1;
+
+		mockMvc.perform( get( PATH + "/{pautaId}", pautaId ))
+				.andExpect( status().isOk() )
+				.andExpect( jsonPath("$.pautaId").value( pautaId ))
+				.andExpect( jsonPath("$.description").value( "" ))
+				.andExpect( jsonPath("$.approved").value( 1 ))
+				.andExpect( jsonPath("$.rejected").value( 0 ))
+				.andExpect( jsonPath("$.abstention").value( 0 ))
+				.andExpect( jsonPath("$.protest").value( 0 ))
+				.andExpect( jsonPath("$.total").value( 1 ))
+				.andExpect( jsonPath("$.status").value( PautaStatusEnum.APROVADA.getValue() ));
+	}
+	
+	@Test
+	@SqlGroup({
+        @Sql( executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD, scripts = QueryProvider.insertFinishedPauta ),
+        @Sql( executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD, scripts = QueryProvider.insertAssociadoAbleToVote ),
+        @Sql( executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD, scripts = QueryProvider.insertVotoNao ),
+        @Sql( executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD, scripts = QueryProvider.resetDB ),
+    })
+	@DisplayName("[GET] Deve retornar Ok ao buscar o resultado da Pauta reprovada")
+	public void Should_ReturnOk_GetPautaResult_Rejected() throws Exception
+	{
+		long pautaId = 1;
+
+		mockMvc.perform( get( PATH + "/{pautaId}", pautaId ))
+				.andExpect( status().isOk() )
+				.andExpect( jsonPath("$.pautaId").value( pautaId ))
+				.andExpect( jsonPath("$.description").value( "" ))
+				.andExpect( jsonPath("$.approved").value( 0 ))
+				.andExpect( jsonPath("$.rejected").value( 1 ))
+				.andExpect( jsonPath("$.abstention").value( 0 ))
+				.andExpect( jsonPath("$.protest").value( 0 ))
+				.andExpect( jsonPath("$.total").value( 1 ))
+				.andExpect( jsonPath("$.status").value( PautaStatusEnum.REPROVADA.getValue() ));
+	}
+	
+	@Test
+	@SqlGroup({
+        @Sql( executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD, scripts = QueryProvider.insertFinishedPauta ),
+        @Sql( executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD, scripts = QueryProvider.resetDB ),
+    })
+	@DisplayName("[GET] Deve retornar Ok ao buscar o resultado da Pauta anulada")
+	public void Should_ReturnOk_GetPautaResult_Anulada() throws Exception
+	{
+		long pautaId = 1;
+
+		mockMvc.perform( get( PATH + "/{pautaId}", pautaId ))
+				.andExpect( status().isOk() )
+				.andExpect( jsonPath("$.pautaId").value( pautaId ))
+				.andExpect( jsonPath("$.description").value( "" ))
+				.andExpect( jsonPath("$.approved").value( 0 ))
+				.andExpect( jsonPath("$.rejected").value( 0 ))
+				.andExpect( jsonPath("$.abstention").value( 0 ))
+				.andExpect( jsonPath("$.protest").value( 0 ))
+				.andExpect( jsonPath("$.total").value( 0 ))
+				.andExpect( jsonPath("$.status").value( PautaStatusEnum.ANULADA.getValue() ));
+	}
+	
+	@Test
+	@SqlGroup({
+        @Sql( executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD, scripts = QueryProvider.insertFinishedPauta ),
+		@Sql( executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD, scripts = QueryProvider.insertAssociadoAbleToVote ),
+        @Sql( executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD, scripts = QueryProvider.insertVotoSim ),
+        @Sql( executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD, scripts = QueryProvider.insertVotoNao ),
+        @Sql( executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD, scripts = QueryProvider.resetDB ),
+    })
+	@DisplayName("[GET] Deve retornar Ok ao buscar o resultado da Pauta empatada")
+	public void Should_ReturnOk_GetPautaResult_Tied() throws Exception
+	{
+		long pautaId = 1;
+
+		mockMvc.perform( get( PATH + "/{pautaId}", pautaId ))
+				.andExpect( status().isOk() )
+				.andExpect( jsonPath("$.pautaId").value( pautaId ))
+				.andExpect( jsonPath("$.description").value( "" ))
+				.andExpect( jsonPath("$.approved").value( 1 ))
+				.andExpect( jsonPath("$.rejected").value( 1 ))
+				.andExpect( jsonPath("$.abstention").value( 0 ))
+				.andExpect( jsonPath("$.protest").value( 0 ))
+				.andExpect( jsonPath("$.total").value( 2 ))
+				.andExpect( jsonPath("$.status").value( PautaStatusEnum.EMPATADA.getValue() ));
+	}
+
+	@Test
 	@DisplayName("[POST] Deve retornar NotFound ao buscar o resultado da Pauta que não existe")
 	public void Should_ReturnNotFound_GetPautaResult() throws Exception
 	{
