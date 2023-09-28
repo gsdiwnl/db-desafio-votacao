@@ -79,8 +79,8 @@ public interface AssociadoSwagger
                         )
             ),
             @ApiResponse(
-                responseCode = "403",
-                description = SwaggerConfig.FORBIDDEN_MESSAGE,
+                responseCode = "422",
+                description = SwaggerConfig.UNPROCESSABLE_ENTITY_MESSAGE,
                 content = @Content( 
                             schema = @Schema( implementation = Error.class ),
                             mediaType = MediaType.APPLICATION_JSON_VALUE

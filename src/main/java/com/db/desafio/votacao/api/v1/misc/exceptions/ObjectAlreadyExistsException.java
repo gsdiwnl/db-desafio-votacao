@@ -62,7 +62,7 @@ public class ObjectAlreadyExistsException
      */
     public HttpStatus getStatus()
     {
-        return HttpStatus.FORBIDDEN;
+        return HttpStatus.UNPROCESSABLE_ENTITY;
     }
 }
 

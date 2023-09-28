@@ -85,18 +85,18 @@ public class AssociadoControllerTest
 		@Sql( executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD, scripts = QueryProvider.insertAssociadoAbleToVote ),
 		@Sql( executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD, scripts = QueryProvider.resetDB )
 	})
-	@DisplayName("[POST] Deve retornar Forbidden ao criar um Associado com documento que já existe")
-    public void Should_ReturnForbidden_CreateAssociado() throws Exception
+	@DisplayName("[POST] Deve retornar UnprocessableEntity ao criar um Associado com documento que já existe")
+    public void Should_ReturnUnprocessableEntity_CreateAssociado() throws Exception
     {
         final Associado mockAssociado = AssociadoStub.createAssociadoWithoutId();
 
         mockMvc.perform( post( PATH )
 						.contentType( MediaType.APPLICATION_JSON )
 						.content( json( mockAssociado )))
-				.andExpect( status().isForbidden() )
-				.andExpect( jsonPath("$.code").value( 403 ))
-				.andExpect( jsonPath("$.status").value( "Forbidden" ))
-				.andExpect( jsonPath("$.message").value( "Associado já existe para documento informado: 53347243030" ));
+				.andExpect( status().isUnprocessableEntity() )
+				.andExpect( jsonPath("$.code").value( 422 ))
+				.andExpect( jsonPath("$.status").value( "Unprocessable Entity" ))
+				.andExpect( jsonPath("$.message").value( "Associado já existe para documento informado: " + mockAssociado.getDocument() ));
     }
 
     @Test
