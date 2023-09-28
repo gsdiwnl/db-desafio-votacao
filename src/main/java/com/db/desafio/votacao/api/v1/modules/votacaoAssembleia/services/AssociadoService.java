@@ -30,8 +30,10 @@ import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import com.db.desafio.votacao.api.v1.config.ApplicationContext;
+import com.db.desafio.votacao.api.v1.misc.exceptions.NotFoundException;
 import com.db.desafio.votacao.api.v1.misc.exceptions.ObjectAlreadyExistsException;
 import com.db.desafio.votacao.api.v1.modules.votacaoAssembleia.database.AssociadoRepository;
+import com.db.desafio.votacao.api.v1.modules.votacaoAssembleia.database.dto.RegisterAssociadoDTO;
 import com.db.desafio.votacao.api.v1.modules.votacaoAssembleia.database.enums.AssociadoStatusEnum;
 import com.db.desafio.votacao.api.v1.modules.votacaoAssembleia.database.models.Associado;
 
@@ -67,7 +69,26 @@ public class AssociadoService
     {
         logger.info("Método: Buscar associado pelo documento");
 
-        return associadoRepository.findByDocument( document ).orElse( null );
+        return associadoRepository.findByDocument( document )
+                                    .orElseThrow( () -> new NotFoundException( "Associado não encontrado para documento: " + document ));
+    }
+
+    /**
+     * createAssociado
+     * 
+     * @param dto RegisterAssociadoDTO
+     * @return Associado
+     */
+    public Associado createAssociado( RegisterAssociadoDTO dto )
+    {
+        logger.info("Método: Criar novo associado");
+
+        Associado associado = Associado.builder()
+                                        .name( dto.getName() )
+                                        .document( dto.getDocument() )
+                                        .build();
+
+        return addAssociado( associado );
     }
     
     /**
@@ -78,15 +99,28 @@ public class AssociadoService
      */
     public Associado addAssociado( Associado associado )
     {
-        logger.info("Método: Criar novo associado");
+        logger.info("Método: Salvar novo associado");
 
-        if( getAssociadoByDocument( associado.getDocument() ) != null )
+        if( hasAssociadoForDocument( associado.getDocument() ))
+        {
             throw new ObjectAlreadyExistsException( "Associado já existe para documento informado: " + associado.getDocument() );
+        }
 
         AssociadoStatusEnum status = validateDocument( associado.getDocument() ) ? AssociadoStatusEnum.ABLE_TO_VOTE : AssociadoStatusEnum.UNABLE_TO_VOTE;
         associado.setStatus( status );
 
         return associadoRepository.save( associado );
+    }
+
+    /**
+     * hasAssociadoForDocument
+     * 
+     * @param document String
+     * @return boolean
+     */
+    public boolean hasAssociadoForDocument( String document )
+    {
+        return associadoRepository.existsByDocument( document );
     }
 
     /**
@@ -97,7 +131,7 @@ public class AssociadoService
      */
     public boolean validateDocument( String document )
     {
-        logger.info("Método: Validar documento de associado");
+        logger.info("Método: Validar documento de novo associado");
 
         String type = document.length() == 11 ? "CPF" : "CNPJ";
 

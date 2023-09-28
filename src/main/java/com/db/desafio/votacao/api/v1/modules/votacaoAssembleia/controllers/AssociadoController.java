@@ -29,7 +29,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.db.desafio.votacao.api.v1.misc.exceptions.NotFoundException;
 import com.db.desafio.votacao.api.v1.modules.controllers.Controller;
 import com.db.desafio.votacao.api.v1.modules.votacaoAssembleia.controllers.swagger.AssociadoSwagger;
 import com.db.desafio.votacao.api.v1.modules.votacaoAssembleia.database.dto.RegisterAssociadoDTO;
@@ -72,12 +71,7 @@ public class AssociadoController
     @PostMapping()
     public ResponseEntity<Associado> createAssociado( @RequestBody @Valid RegisterAssociadoDTO associadoDTO ) 
     {
-        Associado associado = new Associado();
-
-        associado.setName( associadoDTO.getName() );
-        associado.setDocument( associadoDTO.getDocument() );
-
-        return created( associadoService.addAssociado( associado ));
+        return created( associadoService.createAssociado( associadoDTO ));
     }
 
     /**
@@ -89,11 +83,6 @@ public class AssociadoController
     @GetMapping("{document}")
     public ResponseEntity<Associado> getAssociadoByDocument( @PathVariable("document") String document )
     {
-        Associado associado = associadoService.getAssociadoByDocument( document );
-
-        if( associado == null )
-            throw new NotFoundException( "Associado não encontrado para documento: " + document );
-
-        return ok( associado );
+        return ok( associadoService.getAssociadoByDocument( document ));
     }
 }
