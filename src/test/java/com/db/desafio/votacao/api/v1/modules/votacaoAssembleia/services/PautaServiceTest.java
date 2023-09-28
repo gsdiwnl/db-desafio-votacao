@@ -69,7 +69,7 @@ public class PautaServiceTest
     {
         Pauta pauta = pautaService.addPauta( mockPautaWithId );
         
-        assertEquals( pauta, mockPautaWithId );
+        assertEquals( mockPautaWithId, pauta );
         verify( pautaRepository, times( 1 )).save( any( Pauta.class ));
     }
 
@@ -80,7 +80,7 @@ public class PautaServiceTest
         BadRequestException exception = assertThrows( BadRequestException.class, 
                                                     () -> pautaService.addPauta( mockPautaWithWrongDates ));
 
-        assertEquals( exception.getMessage(), "Pauta (" + mockPautaWithWrongDates.getName() + ") não pode iniciar com data anterior a atual");
+        assertEquals( "Pauta (" + mockPautaWithWrongDates.getName() + ") não pode iniciar com data anterior a atual", exception.getMessage() );
     }
 
     @Test
@@ -89,7 +89,7 @@ public class PautaServiceTest
     {
         PautaResultDTO pautaResult = pautaService.getPautaResult( 1 );
 
-        assertEquals( pautaResult, mockPautaResult );
+        assertEquals( mockPautaResult, pautaResult );
         verify( pautaRepository, times( 1 )).findById( any( Long.class ));
     }
 
@@ -99,7 +99,7 @@ public class PautaServiceTest
     {
         Pauta pauta = pautaService.getPautaById( 1L );
 
-        assertEquals( pauta, mockPautaWithId );
+        assertEquals( mockPautaWithId, pauta );
         verify( pautaRepository, times( 1 )).findById( any( Long.class ));
     }
     
@@ -112,6 +112,6 @@ public class PautaServiceTest
         NotFoundException exception = assertThrows( NotFoundException.class, 
                                                     () -> pautaService.getPautaResult( pautaId ));
 
-        assertEquals( exception.getMessage(), "Pauta não encontrada para ID: #" + pautaId );
+        assertEquals( "Pauta não encontrada para ID: #" + pautaId , exception.getMessage());
     }
 }

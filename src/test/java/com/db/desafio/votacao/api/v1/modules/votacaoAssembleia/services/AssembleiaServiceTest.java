@@ -68,7 +68,7 @@ public class AssembleiaServiceTest
     {
         Assembleia assembleia = assembleiaService.addAssembleia( mockAssembleiaWithoutId );
         
-        assertEquals( assembleia, mockAssembleiaWithId );
+        assertEquals( mockAssembleiaWithId, assembleia );
         verify( assembleiaRepository, times( 1 )).save( any( Assembleia.class ));
     }
     
@@ -79,7 +79,7 @@ public class AssembleiaServiceTest
         BadRequestException exception = assertThrows( BadRequestException.class, 
                                                     () -> assembleiaService.addAssembleia( mockAssembleiaWithWrongDates ));
 
-        assertEquals( exception.getMessage(), "Assembleia (" + mockAssembleiaWithWrongDates.getName() + ") não pode iniciar com data anterior ao dia atual");
+        assertEquals( "Assembleia (" + mockAssembleiaWithWrongDates.getName() + ") não pode iniciar com data anterior ao dia atual", exception.getMessage() );
     }
 
     @Test
@@ -88,7 +88,7 @@ public class AssembleiaServiceTest
     {
         Assembleia assembleia = assembleiaService.getAssembleiaById( 1L );
 
-        assertEquals( assembleia, mockAssembleiaWithId );
+        assertEquals( mockAssembleiaWithId, assembleia );
         verify( assembleiaRepository, times( 1 )).findById( any( Long.class ));
     }
 
@@ -99,6 +99,6 @@ public class AssembleiaServiceTest
         BadRequestException exception = assertThrows( BadRequestException.class, 
                                                     () -> assembleiaService.validDates( mockAssembleiaWithEndDateBefore ));
 
-        assertEquals( exception.getMessage(), "Data inicial da assembleia deve ser anterior à data final" );
+        assertEquals( "Data inicial da assembleia deve ser anterior à data final", exception.getMessage() );
     }
 }
