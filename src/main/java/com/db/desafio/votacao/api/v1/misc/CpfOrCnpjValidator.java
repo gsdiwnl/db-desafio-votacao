@@ -18,6 +18,7 @@
  */
 package com.db.desafio.votacao.api.v1.misc;
 
+import org.apache.commons.lang3.StringUtils;
 import org.hibernate.validator.internal.constraintvalidators.hv.br.CNPJValidator;
 import org.hibernate.validator.internal.constraintvalidators.hv.br.CPFValidator;
 
@@ -30,6 +31,8 @@ public class CpfOrCnpjValidator
     implements
         ConstraintValidator<CpfOrCnpj, String> 
 {
+    private final int CPF_LENGTH = 11;
+
     /**
      * isValid
      * 
@@ -40,27 +43,57 @@ public class CpfOrCnpjValidator
 	@Override
 	public boolean isValid( String value, ConstraintValidatorContext context ) 
     {
-		if( value == null ) 
+        /**
+         * if value is null, will pass to @IsNotEmpty
+         */
+        if( StringUtils.isEmpty( value ))
         {
-			return true;
-		}
-
-        if( value.length() == 11 )
-        {
-            CPFValidator cpfValidator = new CPFValidator();
-            cpfValidator.initialize( null );
-    
-            return cpfValidator.isValid( value, context );
-        }
-        else if( value.length() == 14 )
-        {
-            CNPJValidator cnpjValidator = new CNPJValidator();
-    
-            cnpjValidator.initialize( null );
-    
-            return cnpjValidator.isValid( value, context );
+            return true;
         }
 
-        return false;
+        return isCpf( value ) 
+            ? validateCpf( value, context )
+            : validateCnpj( value, context );
 	}
+
+    /**
+     * isCpf
+     * 
+     * @param value String
+     * @return boolean
+     */
+    public boolean isCpf( String value )
+    {
+        return value.length() == CPF_LENGTH;
+    }
+
+    /**
+     * validateCpf
+     * 
+     * @param value String
+     * @param context ConstraintValidatorContext
+     * @return boolean
+     */
+    public boolean validateCpf( String value, ConstraintValidatorContext context )
+    {
+        CPFValidator cpfValidator = new CPFValidator();
+        cpfValidator.initialize( null );
+    
+        return cpfValidator.isValid( value, context );
+    }
+
+    /**
+     * validateCnpj
+     * 
+     * @param value String
+     * @param context ConstraintValidatorContext
+     * @return boolean
+     */
+    public boolean validateCnpj( String value, ConstraintValidatorContext context )
+    {
+        CNPJValidator cnpjValidator = new CNPJValidator();
+        cnpjValidator.initialize( null );
+
+        return cnpjValidator.isValid( value, context );
+    }
 }
