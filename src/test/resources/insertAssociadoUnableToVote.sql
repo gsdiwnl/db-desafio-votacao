@@ -4,6 +4,6 @@ INSERT INTO associados ( id, name, document, status )
 VALUES (
     1,
     'Joseph Ortega',
-    '98765432109',
+    '53347243030',
     'UNABLE_TO_VOTE'
 );

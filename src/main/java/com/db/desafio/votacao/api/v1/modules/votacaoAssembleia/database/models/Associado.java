@@ -20,7 +20,6 @@ package com.db.desafio.votacao.api.v1.modules.votacaoAssembleia.database.models;
 
 import com.db.desafio.votacao.api.v1.modules.votacaoAssembleia.database.enums.AssociadoStatusEnum;
 
-import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
@@ -29,6 +28,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -36,6 +36,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
+@Builder
 @Table( name = "associados" )
 public class Associado 
 {
@@ -43,10 +44,8 @@ public class Associado
     @GeneratedValue( strategy = GenerationType.IDENTITY )
     private long id;
     
-    @Column( name = "name", nullable = false )
     private String name;
 
-    @Column( name = "document", nullable = false )
     private String document;
 
     @Enumerated( EnumType.STRING )
