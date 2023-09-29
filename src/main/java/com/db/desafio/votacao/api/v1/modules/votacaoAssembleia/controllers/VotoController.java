@@ -87,5 +87,4 @@ public class VotoController
             
         return created( votoService.addVoto( voto ));
     }
-
 }

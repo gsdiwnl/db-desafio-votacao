@@ -88,7 +88,7 @@ public class VotoService
     {
         if( pautaService.isExpired( voto.getPauta() ))
         {
-            throw new BadRequestException("Pauta (" + voto.getPauta().getName() + ") já foi encerrada");
+            throw new BadRequestException("Pauta já foi encerrada");
         }
 
         if( voto.getAssociado().getStatus() == AssociadoStatusEnum.UNABLE_TO_VOTE )
@@ -98,7 +98,7 @@ public class VotoService
         
         if( existsByAssociadoAndPauta( voto.getAssociado(), voto.getPauta() ))
         {
-            throw new BadRequestException("Associado (" + voto.getAssociado().getDocument() + ") já votou para pauta (" + voto.getPauta().getName() + ")");
+            throw new BadRequestException("Associado (" + voto.getAssociado().getDocument() + ") já votou para pauta");
         }
     }
 }
