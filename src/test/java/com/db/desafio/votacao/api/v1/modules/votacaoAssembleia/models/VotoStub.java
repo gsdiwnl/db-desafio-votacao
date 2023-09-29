@@ -20,6 +20,7 @@ package com.db.desafio.votacao.api.v1.modules.votacaoAssembleia.models;
 
 import com.db.desafio.votacao.api.v1.modules.votacaoAssembleia.database.dto.RegisterVotoDTO;
 import com.db.desafio.votacao.api.v1.modules.votacaoAssembleia.database.enums.VotoEnum;
+import com.db.desafio.votacao.api.v1.modules.votacaoAssembleia.database.models.Voto;
 
 public class VotoStub 
 {
@@ -37,5 +38,21 @@ public class VotoStub
                                                 .build();
 
         return votoDTO;
+    }
+
+    /**
+     * createVotoWithId
+     * 
+     * @return
+     */
+    public static Voto createVotoWithId()
+    {
+        Voto voto = Voto.builder()
+                        .id( 1 )
+                        .associado( AssociadoStub.createAssociadoWithId() )
+                        .pauta( PautaStub.createPautaWithId() )
+                        .voto( VotoEnum.SIM ).build();
+
+        return voto;
     }
 }

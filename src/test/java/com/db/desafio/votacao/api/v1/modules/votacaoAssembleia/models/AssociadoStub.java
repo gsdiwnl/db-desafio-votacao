@@ -18,6 +18,7 @@
  */
 package com.db.desafio.votacao.api.v1.modules.votacaoAssembleia.models;
 
+import com.db.desafio.votacao.api.v1.modules.votacaoAssembleia.database.dto.RegisterAssociadoDTO;
 import com.db.desafio.votacao.api.v1.modules.votacaoAssembleia.database.enums.AssociadoStatusEnum;
 import com.db.desafio.votacao.api.v1.modules.votacaoAssembleia.database.models.Associado;
 
