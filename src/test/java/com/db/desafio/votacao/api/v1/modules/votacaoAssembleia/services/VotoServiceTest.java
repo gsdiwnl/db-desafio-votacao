@@ -41,6 +41,7 @@ import com.db.desafio.votacao.api.v1.modules.votacaoAssembleia.database.models.P
 import com.db.desafio.votacao.api.v1.modules.votacaoAssembleia.database.models.Voto;
 import com.db.desafio.votacao.api.v1.modules.votacaoAssembleia.models.VotoStub;
 
+@DisplayName("Voto service")
 public class VotoServiceTest 
 {
     @InjectMocks
