@@ -25,6 +25,7 @@ import org.springframework.stereotype.Service;
 
 import com.db.desafio.votacao.api.v1.misc.exceptions.BadRequestException;
 import com.db.desafio.votacao.api.v1.modules.votacaoAssembleia.database.VotoRepository;
+import com.db.desafio.votacao.api.v1.modules.votacaoAssembleia.database.dto.RegisterVotoDTO;
 import com.db.desafio.votacao.api.v1.modules.votacaoAssembleia.database.enums.AssociadoStatusEnum;
 import com.db.desafio.votacao.api.v1.modules.votacaoAssembleia.database.models.Associado;
 import com.db.desafio.votacao.api.v1.modules.votacaoAssembleia.database.models.Pauta;
@@ -38,6 +39,9 @@ public class VotoService
 
     @Autowired
     private PautaService pautaService;
+
+    @Autowired
+    private AssociadoService associadoService;
 
     /**
      * getVotos
@@ -69,7 +73,7 @@ public class VotoService
      */
     public Voto addVoto( Voto voto )
     {
-        associadoCanVote( voto );
+        this.associadoCanVote( voto );
 
         Pauta pauta = voto.getPauta();
 
@@ -77,6 +81,26 @@ public class VotoService
         pautaService.updatePauta( pauta );
 
         return votoRepository.save( voto );
+    }
+
+    /**
+     * createVoto
+     * 
+     * @param dto RegisterVotoDTO
+     * @return Voto
+     */
+    public Voto createVoto( RegisterVotoDTO dto )
+    {
+        Associado associado = associadoService.getAssociadoByDocument( dto.getDocumentAssociado() );            
+        Pauta pauta = pautaService.getPautaById( dto.getPautaId() );
+
+        Voto voto = Voto.builder()
+                        .associado( associado )
+                        .pauta( pauta )
+                        .voto( dto.getVoto() )
+                        .build();
+
+        return addVoto( voto );
     }
 
     /**

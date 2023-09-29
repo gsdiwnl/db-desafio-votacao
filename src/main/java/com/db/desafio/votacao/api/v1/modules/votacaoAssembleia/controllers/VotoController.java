@@ -27,15 +27,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.db.desafio.votacao.api.v1.misc.exceptions.NotFoundException;
 import com.db.desafio.votacao.api.v1.modules.controllers.Controller;
 import com.db.desafio.votacao.api.v1.modules.votacaoAssembleia.controllers.swagger.VotoSwagger;
 import com.db.desafio.votacao.api.v1.modules.votacaoAssembleia.database.dto.RegisterVotoDTO;
-import com.db.desafio.votacao.api.v1.modules.votacaoAssembleia.database.models.Associado;
-import com.db.desafio.votacao.api.v1.modules.votacaoAssembleia.database.models.Pauta;
 import com.db.desafio.votacao.api.v1.modules.votacaoAssembleia.database.models.Voto;
-import com.db.desafio.votacao.api.v1.modules.votacaoAssembleia.services.AssociadoService;
-import com.db.desafio.votacao.api.v1.modules.votacaoAssembleia.services.PautaService;
 import com.db.desafio.votacao.api.v1.modules.votacaoAssembleia.services.VotoService;
 
 import io.swagger.v3.oas.annotations.parameters.RequestBody;
@@ -51,12 +46,6 @@ public class VotoController
 {
     @Autowired
     private VotoService votoService;
-    
-    @Autowired
-    private AssociadoService associadoService;
-    
-    @Autowired
-    private PautaService pautaService;
 
     @Override
     @GetMapping()
@@ -68,23 +57,7 @@ public class VotoController
     @Override
     @PostMapping()
     public ResponseEntity<Voto> createVoto( @RequestBody @Valid RegisterVotoDTO votoDTO ) 
-    {
-        Associado associado = associadoService.getAssociadoByDocument( votoDTO.getDocumentAssociado() );
-
-        if( associado == null )
-            throw new NotFoundException("Associado não encontrado para documento: " + votoDTO.getDocumentAssociado() );
-            
-        Pauta pauta = pautaService.getPautaById( votoDTO.getPautaId() );
-
-        if( pauta == null )
-            throw new NotFoundException("Pauta não encontrada para ID: #" + votoDTO.getPautaId() );
-
-        Voto voto = new Voto();
-
-        voto.setAssociado( associado );
-        voto.setPauta( pauta );
-        voto.setVoto( votoDTO.getVoto() );
-            
-        return created( votoService.addVoto( voto ));
+    {    
+        return created( votoService.createVoto( votoDTO ));
     }
 }

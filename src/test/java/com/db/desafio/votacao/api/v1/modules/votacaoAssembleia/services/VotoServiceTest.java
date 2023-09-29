@@ -39,7 +39,6 @@ import com.db.desafio.votacao.api.v1.modules.votacaoAssembleia.database.VotoRepo
 import com.db.desafio.votacao.api.v1.modules.votacaoAssembleia.database.enums.AssociadoStatusEnum;
 import com.db.desafio.votacao.api.v1.modules.votacaoAssembleia.database.models.Pauta;
 import com.db.desafio.votacao.api.v1.modules.votacaoAssembleia.database.models.Voto;
-import com.db.desafio.votacao.api.v1.modules.votacaoAssembleia.models.PautaStub;
 import com.db.desafio.votacao.api.v1.modules.votacaoAssembleia.models.VotoStub;
 
 public class VotoServiceTest 
