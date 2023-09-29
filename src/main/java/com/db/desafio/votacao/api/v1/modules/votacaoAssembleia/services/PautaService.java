@@ -18,7 +18,10 @@
  */
 package com.db.desafio.votacao.api.v1.modules.votacaoAssembleia.services;
 
+import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -30,14 +33,18 @@ import com.db.desafio.votacao.api.v1.misc.exceptions.BadRequestException;
 import com.db.desafio.votacao.api.v1.misc.exceptions.NotFoundException;
 import com.db.desafio.votacao.api.v1.modules.votacaoAssembleia.database.PautaRepository;
 import com.db.desafio.votacao.api.v1.modules.votacaoAssembleia.database.dto.PautaResultDTO;
+import com.db.desafio.votacao.api.v1.modules.votacaoAssembleia.database.dto.RegisterPautaDTO;
 import com.db.desafio.votacao.api.v1.modules.votacaoAssembleia.database.enums.VotoEnum;
+import com.db.desafio.votacao.api.v1.modules.votacaoAssembleia.database.models.Assembleia;
 import com.db.desafio.votacao.api.v1.modules.votacaoAssembleia.database.models.Pauta;
-import com.db.desafio.votacao.api.v1.modules.votacaoAssembleia.database.models.Voto;
 
 @Service
 public class PautaService
 {
     private final Logger logger = LoggerFactory.getLogger( PautaService.class );
+
+    @Autowired
+    private AssembleiaService assembleiaService;
 
     @Autowired
     private PautaRepository pautaRepository;
@@ -49,23 +56,23 @@ public class PautaService
      */
     public List<Pauta> getPautas()
     {
-        logger.info("Método: Buscando pautas");
+        logger.info( "Método: Buscando pautas" );
         
         return this.pautaRepository.findAll();    
     }
     
     /**
-     * getPauta
+     * getPautaById
      * 
-     * @param id long
+     * @param pautaId long
      * @return Pauta
      */
-    public Pauta getPautaById( long id )
+    public Pauta getPautaById( long pautaId )
     {
-        logger.info("Método: Buscando pauta por ID: #" + id );
+        logger.info( "Método: Buscando pauta por ID" );
         
-        return this.pautaRepository.findById( id )
-                                    .orElse( null );
+        return this.pautaRepository.findById( pautaId )
+                                    .orElseThrow( () -> new NotFoundException( "Pauta não encontrada para ID: #" + pautaId ));
     }
 
     /**
@@ -85,12 +92,43 @@ public class PautaService
     /**
      * createPauta
      * 
+     * @param dto RegisterPautaDTO
+     * @return Pauta
+     */
+    public Pauta createPauta( RegisterPautaDTO dto )
+    {
+        logger.info("Método: Criar nova pauta" );
+
+        Assembleia assembleia = assembleiaService.getAssembleiaById( dto.getAssembleiaId() ); 
+
+        Pauta pauta = Pauta.builder()
+                            .name( dto.getName() )
+                            .description( dto.getDescription() )
+                            .votos( dto.getVotos() )
+                            .startTime( dto.getStartTime() )
+                            .endTime( dto.getEndTime() )
+                            .build();
+
+        if( assembleiaService.isInAssembleiaDateRange( assembleia, pauta ))
+            throw new BadRequestException("Data inicial e final da Pauta devem estar dentro do escopo de datas da Assembleia" );
+
+        this.addPauta( pauta );
+
+        assembleia.addPauta( pauta );
+        assembleiaService.updateAssembleia( assembleia );
+
+        return pauta;
+    }
+
+    /**
+     * createPauta
+     * 
      * @param pauta Pauta
      * @return Pauta
      */
     public Pauta addPauta( Pauta pauta )
     {
-        logger.info("Método: Cadastrando nova pauta: " + pauta.getName() );
+        logger.info( "Método: Salvando nova pauta" );
 
         this.validDates( pauta );
 
@@ -105,12 +143,7 @@ public class PautaService
      */
     public boolean isExpired( Pauta pauta )
     {
-        if( pauta.getEndTime().isBefore( ApplicationContext.now() ))
-        {
-            return true;
-        }
-
-        return false;
+        return pauta.getEndTime().isBefore( ApplicationContext.now() );
     }
 
     /**
@@ -122,47 +155,47 @@ public class PautaService
     public PautaResultDTO getPautaResult( long pautaId )
     {
         Pauta pauta = this.getPautaById( pautaId ); 
+        
+        Map<VotoEnum, Long> countedVotos = this.countVotos( pauta );
 
-        if( pauta == null )
-            throw new NotFoundException( "Pauta não encontrada para ID: #" + pautaId );
-            
-        PautaResultDTO result = new PautaResultDTO();
+        return createPautaResult( pauta, countedVotos );
+    }
 
-        long approved = 0;
-        long rejected = 0;
-        long abstention = 0;
-        long protest = 0;
+    /**
+     * createPautaResult
+     * 
+     * @param pauta Pauta
+     * @param countedVotos Map<VotoEnum, Long>
+     * @return PautaResultDTO
+     */
+    public PautaResultDTO createPautaResult( Pauta pauta, Map<VotoEnum, Long> countedVotos )
+    {
+        return PautaResultDTO.builder()
+                            .pautaId( pauta.getId() )
+                            .status( pauta.getStatus() )
+                            .total( pauta.getVotos().size() )
+                            .approved( countedVotos.get( VotoEnum.SIM ))
+                            .rejected( countedVotos.get( VotoEnum.NAO ))
+                            .abstention( countedVotos.get( VotoEnum.ABSTENCAO ))
+                            .protest( countedVotos.get( VotoEnum.BRANCO ))
+                            .build();
+    }
 
-        for( Voto voto : pauta.getVotos() )
-        {
-            if( voto.getVoto().equals( VotoEnum.SIM ))
-            {
-                approved++;
-            }
-            else if( voto.getVoto().equals( VotoEnum.NAO ))
-            {
-                rejected++;
-            }
-            else if( voto.getVoto().equals( VotoEnum.ABSTENCAO ))
-            {
-                abstention++;
-            }
-            else if( voto.getVoto().equals( VotoEnum.BRANCO ))
-            {
-                protest++;
-            }
-        }
-
-        result.setPautaId( pautaId );
-        result.setDescription( pauta.getDescription() );
-        result.setApproved( approved );
-        result.setRejected( rejected );
-        result.setAbstention( abstention );
-        result.setProtest( protest );
-        result.setTotal( pauta.getVotos().size() );
-        result.setStatus( pauta.getStatus() );
-
-        return result;
+    /**
+     * countVotes
+     * 
+     * @param pauta Pauta
+     * @return Map<VotoEnum, Long>
+     */
+    public Map<VotoEnum, Long> countVotos( Pauta pauta )
+    {
+        return Arrays.stream( VotoEnum.values() )
+                    .collect( Collectors.toMap( (voto) -> voto, 
+                                                (voto) -> pauta.getVotos()
+                                                               .stream()
+                                                               .filter( (v) -> 
+                                                                         v.getVoto() == voto )
+                                                               .count() ));
     }
 
     /**
@@ -172,7 +205,7 @@ public class PautaService
      */
     public void validDates( Pauta pauta )
     {
-        logger.info( "Método: Validação de datas de inicio e fim da Assembleia" );
+        logger.info( "Método: Validação de datas de inicio e fim da Pauta" );
 
         if( pauta.getStartTime().toLocalDate().isBefore( ApplicationContext.today()))
             throw new BadRequestException("Pauta (" + pauta.getName() + ") não pode iniciar com data anterior a atual");

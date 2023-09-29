@@ -31,6 +31,7 @@ import com.db.desafio.votacao.api.v1.misc.exceptions.NotFoundException;
 import com.db.desafio.votacao.api.v1.modules.votacaoAssembleia.database.AssembleiaRepository;
 import com.db.desafio.votacao.api.v1.modules.votacaoAssembleia.database.dto.RegisterAssembleiaDTO;
 import com.db.desafio.votacao.api.v1.modules.votacaoAssembleia.database.models.Assembleia;
+import com.db.desafio.votacao.api.v1.modules.votacaoAssembleia.database.models.Pauta;
 
 @Service
 public class AssembleiaService 
@@ -85,6 +86,19 @@ public class AssembleiaService
                                         .build();
 
         return addAssembleia( assembleia );
+    }
+
+    /**
+     * isInAssembleiaDateRange
+     * 
+     * @param assembleia Assembleia
+     * @param pauta Pauta
+     * @return boolean
+     */
+    public boolean isInAssembleiaDateRange( Assembleia assembleia, Pauta pauta )
+    {
+        return pauta.getStartTime().toLocalDate().isBefore( assembleia.getStartDate() )
+            || pauta.getEndTime().toLocalDate().isAfter( assembleia.getEndDate() );
     }
 
     /**

@@ -29,15 +29,11 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.db.desafio.votacao.api.v1.misc.exceptions.BadRequestException;
-import com.db.desafio.votacao.api.v1.misc.exceptions.NotFoundException;
 import com.db.desafio.votacao.api.v1.modules.controllers.Controller;
 import com.db.desafio.votacao.api.v1.modules.votacaoAssembleia.controllers.swagger.PautaSwagger;
 import com.db.desafio.votacao.api.v1.modules.votacaoAssembleia.database.dto.PautaResultDTO;
 import com.db.desafio.votacao.api.v1.modules.votacaoAssembleia.database.dto.RegisterPautaDTO;
-import com.db.desafio.votacao.api.v1.modules.votacaoAssembleia.database.models.Assembleia;
 import com.db.desafio.votacao.api.v1.modules.votacaoAssembleia.database.models.Pauta;
-import com.db.desafio.votacao.api.v1.modules.votacaoAssembleia.services.AssembleiaService;
 import com.db.desafio.votacao.api.v1.modules.votacaoAssembleia.services.PautaService;
 
 import jakarta.validation.Valid;
@@ -52,9 +48,6 @@ public class PautaController
 {
     @Autowired
     private PautaService pautaService;
-    
-    @Autowired
-    private AssembleiaService assembleiaService;
 
     /**
      * getPautas
@@ -64,9 +57,7 @@ public class PautaController
     @GetMapping()
     public ResponseEntity<List<Pauta>> getPautas()
     {
-        List<Pauta> pautas = pautaService.getPautas();
-
-        return ok( pautas );
+        return ok( pautaService.getPautas());
     }
 
     /**
@@ -78,29 +69,7 @@ public class PautaController
     @PostMapping()
     public ResponseEntity<Pauta> createPauta( @RequestBody @Valid RegisterPautaDTO pautaDTO )
     {
-        Assembleia assembleia = assembleiaService.getAssembleiaById( pautaDTO.getAssembleiaId() );
-
-        if( assembleia == null )
-            throw new NotFoundException( "Assembleia not found for ID: #" + pautaDTO.getAssembleiaId() );
-
-        if( pautaDTO.getStartTime().toLocalDate().isBefore( assembleia.getStartDate() )
-         || pautaDTO.getEndTime().toLocalDate().isAfter( assembleia.getEndDate() ))
-            throw new BadRequestException("Data inicial e final da Pauta devem estar dentro do escopo de datas da Assembleia" );
-
-        Pauta pauta = new Pauta();
-
-        pauta.setDescription( pautaDTO.getDescription() );
-        pauta.setVotos( pautaDTO.getVotos() );
-        pauta.setStartTime( pautaDTO.getStartTime() );
-        pauta.setEndTime( pautaDTO.getEndTime() );
-        pauta.setName( pautaDTO.getName() );
-
-        pautaService.addPauta( pauta );
-
-        assembleia.addPauta( pauta );
-        assembleiaService.updateAssembleia( assembleia );
-
-        return created( pauta );
+        return created( pautaService.createPauta( pautaDTO ));
     }
 
     /**
