@@ -133,11 +133,8 @@ public class AssociadoService
     {
         logger.info("Método: Validar documento de novo associado");
 
-        String type = document.length() == 11 ? "CPF" : "CNPJ";
-
         UriComponentsBuilder uriBuilder = UriComponentsBuilder.fromHttpUrl( ApplicationContext.getServerBaseUrl() )
-                                                                .path( "/valid/{cpfOrCnpj}" )
-                                                                .queryParam("type", type );
+                                                                .path( "/valid/{cpfOrCnpj}" );
 
         String apiUrl = uriBuilder.buildAndExpand( document ).toUriString();
 

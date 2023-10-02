@@ -1,7 +1,7 @@
 /**
- * Filename:    CPFService.java
+ * Filename:    ValidacaoDocumentosService.java
  *
- * Description: Implementation of the CPFService class.
+ * Description: Implementation of the ValidacaoDocumentosService class.
  *
  * Revision:    1.0
  *
@@ -27,37 +27,25 @@ import com.db.desafio.votacao.api.v1.modules.validacaoDocumentos.database.enums.
 import com.db.desafio.votacao.api.v1.modules.validacaoDocumentos.database.models.Valid;
 
 @Service
-public class CPFService 
+public class ValidacaoDocumentosService 
 {
     /**
-     * validate
+     * validateDocument
      * 
-     * @param CPF String
+     * @param document String
      * @return Valid
      */
-    public Valid validate( String CPF )
+    public Valid validateDocument( String document )
     {
-        Valid valid = new Valid();
-
-        if( CPF.length() != 11 )
+        if( new Random().nextBoolean() )
         {
-            throw new NotFoundException("Invalid CPF");
-        }
-        else
-        {
-            Random random = new Random();
-            boolean isValid = random.nextBoolean();
+            Valid valid = new Valid();
+            
+            valid.setStatus( ValidEnum.ABLE_TO_VOTE );
 
-            if( isValid )
-            {
-                valid.setStatus( ValidEnum.ABLE_TO_VOTE );
-            }
-            else
-            {
-                throw new NotFoundException("Invalid CPF");
-            }
+            return valid;
         }
-
-        return valid;
+        
+        throw new NotFoundException("Invalid document");
     }
 }

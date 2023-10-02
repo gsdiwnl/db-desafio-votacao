@@ -18,33 +18,8 @@
  */
 package com.db.desafio.votacao.api.v1.modules.validacaoDocumentos.database.enums;
 
-import com.fasterxml.jackson.annotation.JsonValue;
-
 public enum ValidEnum 
 {
-    ABLE_TO_VOTE("ABLE_TO_VOTE"),
-    UNABLE_TO_VOTE("UNABLE_TO_VOTE");
-
-    private final String value;
-
-    /**
-     * ValidEnum
-     * 
-     * @param voto String
-     */
-    ValidEnum( String voto ) 
-    {
-        this.value = voto;
-    }
-
-    /**
-     * getValue
-     * 
-     * @return
-     */
-    @JsonValue
-    public String getValue() 
-    {
-        return value;
-    }
+    ABLE_TO_VOTE,
+    UNABLE_TO_VOTE;
 }

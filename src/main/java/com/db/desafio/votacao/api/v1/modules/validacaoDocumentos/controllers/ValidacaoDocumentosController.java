@@ -24,7 +24,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.db.desafio.votacao.api.v1.misc.exceptions.NotFoundException;
@@ -32,8 +31,7 @@ import com.db.desafio.votacao.api.v1.modules.controllers.Controller;
 import com.db.desafio.votacao.api.v1.modules.validacaoDocumentos.controllers.swagger.ValidacaoDocumentosSwagger;
 import com.db.desafio.votacao.api.v1.modules.validacaoDocumentos.database.enums.ValidEnum;
 import com.db.desafio.votacao.api.v1.modules.validacaoDocumentos.database.models.Valid;
-import com.db.desafio.votacao.api.v1.modules.validacaoDocumentos.services.CNPJService;
-import com.db.desafio.votacao.api.v1.modules.validacaoDocumentos.services.CPFService;
+import com.db.desafio.votacao.api.v1.modules.validacaoDocumentos.services.ValidacaoDocumentosService;
 
 @RestController
 @RequestMapping( path = Controller.VERSION + "valid" )
@@ -42,43 +40,26 @@ public class ValidacaoDocumentosController
         Controller
     implements
         ValidacaoDocumentosSwagger
-
 {
     @Autowired
-    private CPFService cpfService;
-    
-    @Autowired
-    private CNPJService cnpjService;
+    private ValidacaoDocumentosService validacaoDocumentosService;
 
     @Override
     @GetMapping("{cpfOrCnpj}")
-    public ResponseEntity<Valid> getValid( 
-        @PathVariable("cpfOrCnpj") String cpfOrCnpj, 
-        @RequestParam( name = "type") String type )
+    public ResponseEntity<Valid> getValid( @PathVariable("cpfOrCnpj") String cpfOrCnpj )
     {
-        Valid valid = new Valid();
-        valid.setStatus( ValidEnum.UNABLE_TO_VOTE );
-
         try
         {
-            if( type.equalsIgnoreCase("CPF"))
-            {
-                valid = cpfService.validate( cpfOrCnpj );
+            Valid valid = validacaoDocumentosService.validateDocument( cpfOrCnpj );
 
-                return ok( valid );
-            }
-            else if( type.equalsIgnoreCase("CNPJ" ))
-            {
-                valid = cnpjService.validate( cpfOrCnpj );
-
-                return ok( valid );
-            }
+            return ok( valid );
         }
         catch( NotFoundException notFoundException )
         {
+            Valid valid = new Valid();
+            valid.setStatus( ValidEnum.UNABLE_TO_VOTE );
+
             return new ResponseEntity<Valid>( valid, HttpStatus.NOT_FOUND );
         }
-
-        return ok( valid );
     }
 }
