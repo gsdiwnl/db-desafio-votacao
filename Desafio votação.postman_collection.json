@@ -37,6 +37,50 @@
 						}
 					},
 					"response": []
+				},
+				{
+					"name": "Cadastrar Pauta",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"assembleiaId\": \"1\",\r\n    \"name\": \"Pauta 1\",\r\n    \"startTime\": \"2023-09-29T18:00:00\",\r\n    \"endTime\": \"2023-09-29T18:30:00\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BASE_URL}}/pautas",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"pautas"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Buscar resultado de Pauta",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{BASE_URL}}/pautas/1",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"pautas",
+								"1"
+							]
+						}
+					},
+					"response": []
 				}
 			]
 		},
@@ -44,7 +88,7 @@
 			"name": "Assembleia",
 			"item": [
 				{
-					"name": "Buscar assembleia",
+					"name": "Buscar assembleias",
 					"request": {
 						"method": "GET",
 						"header": [],
@@ -61,10 +105,37 @@
 					"response": []
 				},
 				{
-					"name": "Cadastrar assembleia",
+					"name": "Buscar assembleia pelo ID",
 					"request": {
 						"method": "GET",
 						"header": [],
+						"url": {
+							"raw": "{{BASE_URL}}/assembleias/1",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"assembleias",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Cadastrar assembleia",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"Assembleia dos associados\",\r\n    \"startDate\": \"2023-09-29\",\r\n    \"endDate\": \"2023-09-29\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
 						"url": {
 							"raw": "{{BASE_URL}}/assembleias",
 							"host": [
@@ -72,6 +143,163 @@
 							],
 							"path": [
 								"assembleias"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Associados",
+			"item": [
+				{
+					"name": "Buscar associados",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{BASE_URL}}/associados",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"associados"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Buscar associado por documento",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{BASE_URL}}/associados/53347243030",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"associados",
+								"53347243030"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Cadastrar Associado",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"Joseph Ortega\",\r\n    \"document\": \"53347243030\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BASE_URL}}/associados",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"associados"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Validação documento",
+			"item": [
+				{
+					"name": "Validar documento",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "type",
+								"value": "CPF",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{BASE_URL}}/valid/04237410048?type=CPF",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"valid",
+								"04237410048"
+							],
+							"query": [
+								{
+									"key": "type",
+									"value": "CPF"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Voto",
+			"item": [
+				{
+					"name": "Buscar votos",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{BASE_URL}}/votos",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"votos"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Registrar voto",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"documentAssociado\": \"53347243030\",\r\n    \"pautaId\": \"1\",\r\n    \"voto\": \"Sim\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BASE_URL}}/votos",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"votos"
 							]
 						}
 					},
