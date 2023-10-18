@@ -1,3 +1,5 @@
+[Instruções para aplicação](https://github.com/gsdiwnl/db-desafio-votacao/blob/main/INSTRUCTIONS.md)
+
 # Votação
 
 ## Objetivo
